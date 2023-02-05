@@ -1,0 +1,5 @@
+{
+    "plugins": [
+        "@tverstraten/does-not-exist"
+    ]
+}

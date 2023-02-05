@@ -1,0 +1,10 @@
+{
+    "plugins": [
+        "@tverstraten/sample-template"
+    ],
+    "name": "Test System",
+    "configuration": {
+        "builder": "SequentialAggregateBuilder",
+        "settings": "[]"
+    }
+}

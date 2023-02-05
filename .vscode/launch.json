@@ -1,0 +1,27 @@
+{
+	"configurations": [
+	{
+		"name": "Launch Program",
+		"program": "${workspaceFolder}/app.js",
+		"request": "launch",
+		"skipFiles": [
+			"<node_internals>/**"
+		],
+		"type": "pwa-node"
+	},
+		{
+			"type": "node",
+			"name": "jest",
+			"request": "launch",
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen",
+			"disableOptimisticBPs": true,
+			"program": "${workspaceFolder}\\node_modules\\jest\\bin\\jest",
+			"cwd": "${workspaceFolder}",
+			"args": [
+				"--runInBand",
+				"--watchAll=false"
+			]
+		}
+	]
+}
