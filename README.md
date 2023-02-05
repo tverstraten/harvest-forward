@@ -44,7 +44,7 @@ Create your confirugation file as ./hf.json
         "settings": {
             "configurations": [
                 {
-                    "builder": "builtIn/typescript/EnumValueHarvester"
+                    "builder": "builtIn/typescript/enumValueHarvester"
                     "description": "Read a set of typescript enumerations",
                     "settings": {
                         "sourcePath": "./src/model",
@@ -53,12 +53,13 @@ Create your confirugation file as ./hf.json
                     }
                 },
                 {
-                    "builder": "builtIn/handlebars/HandlebarsGenerator",
+                    "builder": "builtIn/handlebars/handlebarsGenerator",
                     "description": "Emit the current model as a json file",
                     "settings": {
                         "templateName": "handlebars/builtIn/handlebars/SystemAsJson",
                         "targetPath": "./System.json",
                         "overwrite": true
+                    }
                 }
             ]
         }
@@ -125,10 +126,10 @@ To configure an aggregate builder its settings should look like below:
 "settings": {
     "configurations": [
         {
-            "builder": "builtIn/typescript/EnumValueHarvester"
+            "builder": "builtIn/typescript/enumValueHarvester"
         },
         {
-            "builder": "builtIn/typescript/ClassToModelHarvester"
+            "builder": "builtIn/typescript/classToModelHarvester"
         }
     ]
 }
@@ -147,7 +148,7 @@ In general, the configuration is saved in a root level file called .hf.json. It 
 ```json
 {
     "plugins": [
-        "@tverstraten/sample-template"
+        "@tverstraten/hf-sample-template"
     ],
     "name": "Test System",
     "configuration": {
@@ -165,7 +166,6 @@ To help people get started a number of plugins are built in, you do not have to 
 1. [information-architecture](/src/plugins/information-architecture/README.md)
 1. [javascript](/src/plugins/javascript/README.md)
 1. [javascriptRunner](/src/plugins/javascriptRunner/README.md)
-1. [mysql](/src/plugins/mysql/README.md)
 1. [nodeRunner](/src/plugins/nodeRunner/README.md)
 1. [npmRunner](/src/plugins/npmRunner/README.md)
 1. [rdbms-basic](/src/plugins/rdbms-basic/README.md)

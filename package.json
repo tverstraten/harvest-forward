@@ -1,6 +1,6 @@
 {
 	"name": "@tverstraten/harvest-forward",
-	"version": "0.3.45",
+	"version": "0.3.46",
 	"description": "Harvest Forward Runtime. Harvest, transform, generate and repeat with artifacts and code. Have your code synchronized to the artifacts that define it",
 	"author": "tverstraten",
 	"repository": {
