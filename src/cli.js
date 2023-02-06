@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-
 function outputUsage() {
 	console.log(`Usage: node index.js <options>
 
@@ -32,7 +31,7 @@ process.argv.forEach((argument) => {
 import { ConfigurationManager } from './runtime/ConfigurationManager'
 import { RuntimeBuilder } from './runtime/RuntimeBuilder'
 import { System } from './system/System'
-import { Logging } from '@hfadmin/logging'
+import { Logging } from '@tverstraten/log-annotations'
 
 async function run(cliArguments) {
 	var logger = Logging.newLogger('hf')
