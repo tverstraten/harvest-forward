@@ -13,12 +13,14 @@ If you have one or more artifacts that systematically define what other artifact
 
 Harvest Forward is a framework built to assist with artifact(code) generation, more specifically allowing harvesters, transformers and generators to be decomposed into reusable pieces and then recombined by configuration as needed. It maintains an internal model that is created, altered and consumed to produce output via the [configuration](#compositionconfiguration) of [plugins](#plugins).
 
+The harvestors, transformers and generators can be arbitrarily ordered so the output of one can be used as the input for another. For example, if we have a model of a REST API layer that produces an open api json file we can then use that json file to generate client side stubs. Alternatively, if we want all service (business logic) layer methods to be exposed via a REST API we can simply parse those classes to read the appropriate methods and extract their signatures and documentation so that we have a model sufficient to generate the api code.
+
 Some simple examples include:
 
 1. Use the typescript harvestors to read model classes into the Harvest Forward model then generate mongoose schemas for working with Mongo
 1. Use Java harvestors to read in your spring REST mappings to generate a client api library
 1. Use MySql harvestors to read in your model and emit a laravel model with rules to enforce rules such as domains and column length
-1. As shown in our [sample application](https://github.com/tverstraten/sample-app-ts-mysql-express-react), a typescript model is used to produce
+1. As shown in our [sample application](https://github.com/tverstraten/hf-sample-app-ts-mysql-express), a typescript model is used to produce
 
     1. A Mysql schema
     1. A basic data access layer with CRUD operations
@@ -33,7 +35,7 @@ Install Harvest Forward runtime:
 npm install -g @tverstraten/harvest-forward
 ```
 
-Create your confirugation file as ./hf.json
+Create your confirugation file as ./.hf.json
 
 ```json
 {
@@ -54,9 +56,9 @@ Create your confirugation file as ./hf.json
                 },
                 {
                     "builder": "builtIn/handlebars/handlebarsGenerator",
-                    "description": "Emit the current model as a json file",
+                    "description": "Emit the current system as a json file",
                     "settings": {
-                        "templateName": "handlebars/builtIn/handlebars/SystemAsJson",
+                        "templateName": "handlebars/builtIn/handlebars/systemAsJson",
                         "targetPath": "./System.json",
                         "overwrite": true
                     }
@@ -176,7 +178,7 @@ To help people get started a number of plugins are built in, you do not have to 
 
 # See also
 
-A sample project demonstrating usage of Harvest Forward can be found at [sample-app-ts-mysql-express-react](https://github.com/tverstraten/sample-app-ts-mysql-express-react)
+A sample project demonstrating usage of Harvest Forward can be found at [hf-sample-app-ts-mysql-express](https://github.com/tverstraten/hf-sample-app-ts-mysql-express)
 
 # Finding and Sharing plugins and temples
 
