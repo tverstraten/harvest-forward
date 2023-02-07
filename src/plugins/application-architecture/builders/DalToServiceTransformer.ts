@@ -36,7 +36,7 @@ export class DalToServiceTransformer extends AbstractSingularBuilder {
 
 	protected async buildInternal(system: System, component: SystemComponent): Promise<Artifact[]> {
 		const daClass = component as Class
-		const blName = `${daClass.name.replace(/Da$/, '')}Service`
+		const blName = `${daClass.name.replace(/Dac$/, '')}Service`
 		const blDescription = `A class to performs actions against the model class ${daClass.name}. Many actions expose access to the data itself`
 		const blClass = new Class('service', blName, blDescription, SystemComponentType.service)
 		blClass.singularName = blName

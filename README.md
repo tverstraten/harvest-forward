@@ -180,6 +180,6 @@ To help people get started a number of plugins are built in, you do not have to 
 
 A sample project demonstrating usage of Harvest Forward can be found at [hf-sample-app-ts-mysql-express](https://github.com/tverstraten/hf-sample-app-ts-mysql-express)
 
-# Finding and Sharing plugins and temples
+# Finding and Sharing plugins and templates
 
 Coming soon.

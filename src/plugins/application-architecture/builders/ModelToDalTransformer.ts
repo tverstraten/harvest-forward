@@ -38,7 +38,7 @@ export class ModelToDalTransformer extends AbstractSingularBuilder {
 	protected async buildInternal(system: System, component: SystemComponent): Promise<Artifact[]> {
 		const dal = DataAccessLayer.fromSystem(system)
 		const informationClass = component as Class
-		const daName = `${informationClass.name}Da`
+		const daName = `${informationClass.name}Dac`
 		const daDescription = `A class to access and manipulate data saved in a persistent store for the informational class ${informationClass.name}`
 		const daClass = new Class(dal.fullConstantCaseName, daName, daDescription, SystemComponentType.dataAccess)
 		daClass.singularName = daName
