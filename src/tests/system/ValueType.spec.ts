@@ -51,10 +51,11 @@ describe('asCollection', () => {
 describe('getValues', () => {
 	it('all there', async () => {
 		const types = ValueType.getValues()
-		expect(types.length).toBe(11)
+		expect(types.length).toBe(12)
 		expect(types.includes(ValueType.object)).toBe(true)
 		expect(types.includes(ValueType.string)).toBe(true)
 		expect(types.includes(ValueType.int)).toBe(true)
+		expect(types.includes(ValueType.number)).toBe(true)
 		expect(types.includes(ValueType.float)).toBe(true)
 		expect(types.includes(ValueType.boolean)).toBe(true)
 		expect(types.includes(ValueType.dateTime)).toBe(true)
@@ -91,8 +92,12 @@ describe('install', () => {
 			return arbitraryTypeName === name
 		}
 
-		toType(name: string): string {
+		toTypeName(name: string): string {
 			return arbitraryTypeName === name ? arbitraryReturnedTypeName : ''
+		}
+
+		toType(__name: string): ValueType {
+			return ValueType.string
 		}
 	}
 	const resolver = new TestResolver()

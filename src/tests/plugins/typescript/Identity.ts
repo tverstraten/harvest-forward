@@ -1,11 +1,13 @@
+import { Identifiable } from './Identifiable'
+import { IdentityProvider } from './IdentityProvider'
 import { User } from './User'
 
-export class Identity {
+export class Identity implements Identifiable {
 	id?: string
 
-	provider?: string
+	provider?: IdentityProvider
 
-	providerId?: string
+	providerId?: number
 
 	forUser?: User
 }

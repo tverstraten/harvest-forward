@@ -28,8 +28,12 @@ class TempTypeResolver implements ValueTypeResolver {
 		return true
 	}
 
-	toType(name: string): string | undefined {
+	toTypeName(name: string): string | undefined {
 		return `bogus2-${name}`
+	}
+
+	toType(__name: string): ValueType | undefined {
+		return ValueType.string
 	}
 }
 

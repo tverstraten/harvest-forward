@@ -71,9 +71,15 @@ export abstract class AbstractTypeScriptAstHarvester extends AbstractSingularBui
 		try {
 			const fileAndPath = `${filePath}/${fileName}`
 			let result
-			const cwd = await sh.pwd()
-			// eslint-disable-next-line spellcheck/spell-checker
-			const realPath = fs.realpathSync(`${cwd}/${fileAndPath}`)
+			let realPath
+			try {
+				// eslint-disable-next-line spellcheck/spell-checker
+				realPath = fs.realpathSync(fileAndPath)
+			} catch (problem) {
+				const cwd = await sh.pwd()
+				// eslint-disable-next-line spellcheck/spell-checker
+				realPath = fs.realpathSync(`${cwd}/${fileAndPath}`)
+			}
 			this.logger.isLevelEnabled(Level.debug) ? this.logger.debug(`harvestFromFile(${this.name}) loading ${realPath}`) : ''
 
 			const stats = await fs.promises.stat(fileAndPath)

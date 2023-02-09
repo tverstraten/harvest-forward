@@ -61,7 +61,6 @@ export * from './plugins/rest/Resource'
 export * from './plugins/rest/RestParameterLocation'
 
 export * from './plugins/typescript/AbstractTypeScriptAstHarvester'
-export * from './plugins/typescript/TypeScriptClassFieldToModelHarvester'
 export * from './plugins/typescript/TypeScriptClassPropertyToModelHarvester'
 export * from './plugins/typescript/TypeScriptClassToModelHarvester'
 export * from './plugins/typescript/TypeScriptEnumValueHarvester'

@@ -31,6 +31,8 @@ export class ValueType extends SystemDescendantComponent {
 
 	static int = new ValueType('ValueType', 'INFORMATION_MODEL', 'int', '', true)
 
+	static number = new ValueType('ValueType', 'INFORMATION_MODEL', 'number', '', true)
+
 	static float = new ValueType('ValueType', 'INFORMATION_MODEL', 'float', '', true)
 
 	static boolean = new ValueType('ValueType', 'INFORMATION_MODEL', 'boolean', '', true)
@@ -62,10 +64,11 @@ export class ValueType extends SystemDescendantComponent {
 		} else return this._asCollection
 	}
 
-	private static types = [
+	static types = [
 		ValueType.object,
 		ValueType.string,
 		ValueType.int,
+		ValueType.number,
 		ValueType.float,
 		ValueType.boolean,
 		ValueType.dateTime,
@@ -106,6 +109,9 @@ export class ValueType extends SystemDescendantComponent {
 	static fromNameInType(language: ProgrammingLanguage, name: string): ValueType {
 		const resolver = ValueType.typeResolverMap[language.name]
 		if (resolver.doesSupport(language)) {
+			const resolvedType = resolver.toType(name)
+			if (resolvedType) return resolvedType
+
 			for (let index = 0; index < ValueType.types.length; index++) {
 				const type = ValueType.types[index]
 				const optionalName = resolver.fromType(type, false)

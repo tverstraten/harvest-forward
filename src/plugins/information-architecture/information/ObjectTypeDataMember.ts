@@ -19,6 +19,8 @@ export class ObjectTypeDataMember extends ObjectTypeMember implements ValueSpeci
 
 	foreignIdentifiedBy?: ObjectTypeDataMember
 
+	static = false
+
 	// eslint-disable-next-line max-params
 	constructor(typeName: string, nameSpace: string, name: string, description: string, type: ValueType, length: number) {
 		super(typeName, nameSpace, name, description, SystemComponentType.informationModel)

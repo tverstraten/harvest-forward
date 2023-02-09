@@ -7,7 +7,7 @@ This plugin includes basic [value types](./index.ts) for Typescript, templates f
 The harvesters included are:
 
 1. [AbstractTypeScriptAstHarvester](./AbstractTypeScriptAstHarvester.ts) - A base point of inheritence for harvesters of information from typescript source code
-1. [TypeScriptClassFieldToModelHarvester](./TypeScriptClassFieldToModelHarvester.ts) - Extract fields from classes and add to the model
 1. [TypeScriptClassPropertyToModelHarvester](./TypeScriptClassPropertyToModelHarvester.ts) - Extract properties from classes and add to the model
 1. [TypeScriptClassToModelHarvester](./TypeScriptClassToModelHarvester.ts) - Extract classes without the members from the model
 1. [TypeScriptEnumValueHarvester](./TypeScriptEnumValueHarvester.ts) - Extract enumerations and their values and add to the model
+1. [TypeScriptInterfaceToModelHarvester](./TypeScriptInterfaceToModelHarvester.ts) - Extract interfaces and their values and add to the model

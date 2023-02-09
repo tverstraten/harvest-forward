@@ -101,7 +101,7 @@ Model shape can be specified by plugins as well. These can be provided to ensure
 
 A harvester is a builder that extracts information from an external source and then updates the internal model. The built in
 
-Some examples include harvesting information from typescript files such as [classes](/src/plugins/typescript/TypeScriptClassToModelHarvester.ts), [fields](/src/plugins//typescript/TypeScriptClassFieldToModelHarvester.ts), [properties](/src/plugins/typescript/TypeScriptClassPropertyToModelHarvester.ts) and [enumerations](/src/plugins/typescript/TypeScriptEnumValueHarvester.ts), etc.
+Some examples include harvesting information from typescript files such as [classes](/src/plugins/typescript/TypeScriptClassToModelHarvester.ts), [properties](/src/plugins/typescript/TypeScriptClassPropertyToModelHarvester.ts), [enumerations](/src/plugins/typescript/TypeScriptEnumValueHarvester.ts) and [interfaces](/src/plugins/typescript/TypeScriptInterfaceToModelHarvester.ts), etc.
 
 # Transformers
 

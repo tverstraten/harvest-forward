@@ -1,4 +1,5 @@
 import { ProgrammingLanguage } from './ProgrammingLanguage'
+import { ValueType } from './ValueType'
 
 export interface ValueTypeResolver {
 	doesSupport(language: ProgrammingLanguage): boolean
@@ -9,5 +10,7 @@ export interface ValueTypeResolver {
 
 	hasName(name: string): boolean
 
-	toType(name: string): string | undefined
+	toTypeName(name: string): string | undefined
+
+	toType(name: string): ValueType | undefined
 }

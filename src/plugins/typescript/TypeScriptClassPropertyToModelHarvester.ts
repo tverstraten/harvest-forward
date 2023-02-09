@@ -1,4 +1,4 @@
-import ts, { ClassDeclaration, PropertyDeclaration, SyntaxKind } from 'typescript'
+import ts, { ClassDeclaration, Expression, PropertyDeclaration, SyntaxKind } from 'typescript'
 import { Artifact } from '../../system/Artifact'
 import { ComponentOrigin } from '../../system/ComponentOrigin'
 import { Permanence } from '../../system/Permanence'
@@ -46,8 +46,12 @@ export class TypeScriptClassPropertyToModelHarvester extends AbstractTypeScriptA
 									memberDocumentationText += jsDocItem.comment as string
 								})
 							}
-							const typeNode = member.type as ts.TypeNode
+							let typeNode = member.type as ts.TypeNode
 							let typeName
+							if (typeNode == null && member.initializer) {
+								const definingInitializer = member.initializer as Expression
+								typeNode = (definingInitializer as any).type
+							}
 							if (typeNode == null) typeName = 'string'
 							else typeName = typeNode.getText(ast)
 							if (typeName.indexOf('|') >= 0) {
@@ -58,6 +62,8 @@ export class TypeScriptClassPropertyToModelHarvester extends AbstractTypeScriptA
 								typeName = typeName.replace('[]', '')
 								isArray = true
 							} else isArray = false
+
+							const staticModifier = member.modifiers?.find((modifier) => modifier.kind == SyntaxKind.StaticKeyword)
 
 							const fullName = SystemComponent.fullConstantCase(model.fullConstantCaseName, typeName)
 							let propertyType
@@ -73,7 +79,10 @@ export class TypeScriptClassPropertyToModelHarvester extends AbstractTypeScriptA
 							newProperty.permanence = Permanence.persistent
 							newProperty.informational = true
 							newProperty.functional = false
+							newProperty.optional = member.questionToken ? true : false
 							newProperty.origin = ComponentOrigin.harvested
+							newProperty.static = staticModifier ? true : false
+
 							representedClass.addChild(newProperty)
 							results.push(new SystemComponentArtifact(newProperty))
 						}

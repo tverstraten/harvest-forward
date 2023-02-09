@@ -150,12 +150,12 @@ describe('toType', () => {
 			}
 		)
 
-		expect(resolver.toType('object')).toBe(ValueType.object.name)
-		expect(resolver.toType('string')).toBe(ValueType.string.name)
-		expect(resolver.toType('void')).toBeUndefined()
+		expect(resolver.toTypeName('object')).toBe(ValueType.object.name)
+		expect(resolver.toTypeName('string')).toBe(ValueType.string.name)
+		expect(resolver.toTypeName('void')).toBeUndefined()
 
 		const testFunction2 = (): void => {
-			resolver.toType(undefined as any)
+			resolver.toTypeName(undefined as any)
 		}
 		expect(testFunction2).toThrow()
 	})

@@ -52,8 +52,20 @@ export class SimpleMappedValueTypeResolver implements ValueTypeResolver {
 		throw RangeError(`${originalType.name} is not a supported type`)
 	}
 
-	toType(name: string): string | undefined {
+	toTypeName(name: string): string | undefined {
 		if (!name) throw RangeError(`name was not specified`)
 		return this.mandatoryValueTypes[name]
+	}
+
+	toType(name: string): ValueType | undefined {
+		if (!name) throw RangeError(`name was not specified`)
+
+		const mappedName = this.mandatoryValueTypes[name]
+		for (let index = 0; index < ValueType.types.length; index++) {
+			const type = ValueType.types[index]
+			if (mappedName === type.name) return type
+		}
+
+		return undefined
 	}
 }
