@@ -7,4 +7,8 @@ export class User {
 	identities = [] as Identity[]
 
 	messages = [] as Message[]
+
+	sendMessage(__id: number, __subject: string, __body: string, __cc?: string): void {
+		return
+	}
 }

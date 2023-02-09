@@ -11,3 +11,4 @@ The harvesters included are:
 1. [TypeScriptClassToModelHarvester](./TypeScriptClassToModelHarvester.ts) - Extract classes without the members from the model
 1. [TypeScriptEnumValueHarvester](./TypeScriptEnumValueHarvester.ts) - Extract enumerations and their values and add to the model
 1. [TypeScriptInterfaceToModelHarvester](./TypeScriptInterfaceToModelHarvester.ts) - Extract interfaces and their values and add to the model
+1. [TypeScriptClassMethodToModelHarvester](./TypeScriptClassMethodToModelHarvester.ts) - Extract methods and their parameters and add to the model

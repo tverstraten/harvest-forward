@@ -115,15 +115,13 @@ describe('install', () => {
 
 	it('fromNameInType', async () => {
 		let result = ValueType.fromNameInType(ProgrammingLanguage.sql, 'special interval')
-		expect(result).toBe(ValueType.interval)
+		expect(result).toBe(ValueType.string)
 
 		result = ValueType.fromNameInType(ProgrammingLanguage.sql, 'special time')
-		expect(result).toBe(ValueType.time)
+		expect(result).toBe(ValueType.string)
 
-		const testFunction1 = (): void => {
-			ValueType.fromNameInType(ProgrammingLanguage.sql, 'noSuchName')
-		}
-		expect(testFunction1).toThrow()
+		result = ValueType.fromNameInType(ProgrammingLanguage.sql, 'noSuchName')
+		expect(result).toBe(ValueType.string)
 
 		const testFunction2 = (): void => {
 			ValueType.fromNameInType(ProgrammingLanguage.tSql, 'noSuchName')

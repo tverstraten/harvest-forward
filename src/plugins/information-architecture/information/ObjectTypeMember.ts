@@ -6,6 +6,8 @@ import { Rule } from '../../validation'
 export abstract class ObjectTypeMember extends SystemDescendantComponent {
 	private _rules: Rule[]
 
+	static = false
+
 	constructor(typeName: string, nameSpace: string, name: string, description: string, role: SystemComponentType) {
 		super(typeName, nameSpace, name, role, description)
 		this._rules = []

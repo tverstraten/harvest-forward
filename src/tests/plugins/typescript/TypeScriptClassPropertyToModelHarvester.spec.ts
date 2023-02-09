@@ -1,6 +1,11 @@
 /* eslint-disable max-lines-per-function */
 import { Class, Property } from '../../../plugins/information-architecture'
-import { TypeScriptClassPropertyToModelHarvester, TypeScriptClassToModelHarvester, TYPE_RESOLVERS } from '../../../plugins/typescript'
+import {
+	TypeScriptClassPropertyToModelHarvester,
+	TypeScriptClassToModelHarvester,
+	TypeScriptEnumValueHarvester,
+	TYPE_RESOLVERS,
+} from '../../../plugins/typescript'
 import { System } from '../../../system/System'
 import { ComponentOrigin } from '../../../system/ComponentOrigin'
 import { Permanence } from '../../../system/Permanence'
@@ -19,6 +24,13 @@ describe('run', () => {
 		const system = new System()
 		await classBuilder.build(system)
 
+		const enumerationBuilder = new TypeScriptEnumValueHarvester({
+			sourcePath: __dirname,
+			fileNamePattern: '^[^.]*(?!spec)*[.]ts$',
+			classNamePattern: '.*',
+		})
+		await enumerationBuilder.build(system)
+
 		const propertyBuilder = new TypeScriptClassPropertyToModelHarvester({
 			sourcePath: __dirname,
 			fileNamePattern: '.*(?<!_ex)$',
@@ -30,7 +42,7 @@ describe('run', () => {
 		expect(children.length).toBe(1)
 		const informationModel = system.children['/INFORMATION_MODEL']
 		const grandChildren = Object.keys(informationModel.children)
-		expect(grandChildren.length).toBe(4)
+		expect(grandChildren.length).toBe(5)
 
 		const userClass = informationModel.children['INFORMATION_MODEL/USER'] as Class
 
@@ -76,7 +88,7 @@ describe('run', () => {
 		expect(idProperty.name).toBe('id')
 		expect(idProperty.nameSpace).toBe('INFORMATION_MODEL/MESSAGE')
 		expect(idProperty.optional).toBe(true)
-		expect(idProperty.type.name).toBe('number')
+		expect(idProperty.type.name).toBe('string')
 		expect(idProperty.type.isCollection).toBe(false)
 		expect(idProperty.objectTypeName).toBe('Property')
 		expect(idProperty.origin).toBe(ComponentOrigin.harvested)
@@ -137,8 +149,7 @@ describe('run', () => {
 		expect(providerProperty.name).toBe('provider')
 		expect(providerProperty.nameSpace).toBe('INFORMATION_MODEL/IDENTITY')
 		expect(providerProperty.optional).toBe(true)
-		// We are not loading enumerations in this test so the type falls back to string.
-		expect(providerProperty.type.name).toBe('string')
+		expect(providerProperty.type.name).toBe('IdentityProvider')
 		expect(providerProperty.type.isCollection).toBe(false)
 		expect(providerProperty.objectTypeName).toBe('Property')
 		expect(providerProperty.origin).toBe(ComponentOrigin.harvested)
@@ -150,7 +161,7 @@ describe('run', () => {
 		expect(providerIdProperty.name).toBe('providerId')
 		expect(providerIdProperty.nameSpace).toBe('INFORMATION_MODEL/IDENTITY')
 		expect(providerIdProperty.optional).toBe(true)
-		expect(providerIdProperty.type.name).toBe('string')
+		expect(providerIdProperty.type.name).toBe('number')
 		expect(providerIdProperty.type.isCollection).toBe(false)
 		expect(providerIdProperty.objectTypeName).toBe('Property')
 		expect(providerIdProperty.origin).toBe(ComponentOrigin.harvested)

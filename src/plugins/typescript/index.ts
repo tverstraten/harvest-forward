@@ -8,6 +8,7 @@ import { TypeScriptEnumValueHarvester } from './TypeScriptEnumValueHarvester'
 import { TypescriptClassInheritanceHarvester } from './TypescriptClassInheritanceHarvester'
 import { DirectlyMappedValueTypeResolver } from '../../system/DirectlyMappedValueTypeResolver'
 import { TypeScriptInterfaceToModelHarvester } from './TypeScriptInterfaceToModelHarvester'
+import { TypeScriptClassMethodToModelHarvester } from './TypeScriptClassMethodToModelHarvester'
 
 const TypeScriptMandatoryValueTypes = {} as { [key: string]: string }
 TypeScriptMandatoryValueTypes[ValueType.object.name] = 'any'
@@ -60,6 +61,7 @@ export const BUILDERS = {
 	classPropertyToModelHarvester: (settings: any): Builder => new TypeScriptClassPropertyToModelHarvester(settings),
 	classInheritanceHarvester: (settings: any): Builder => new TypescriptClassInheritanceHarvester(settings),
 	interfaceToModelHarvester: (settings: any): Builder => new TypeScriptInterfaceToModelHarvester(settings),
+	methodToModelHarvester: (settings: any): Builder => new TypeScriptClassMethodToModelHarvester(settings),
 }
 
 export const TEMPLATES = {
@@ -72,3 +74,4 @@ export * from './TypeScriptClassPropertyToModelHarvester'
 export * from './TypeScriptClassToModelHarvester'
 export * from './TypeScriptEnumValueHarvester'
 export * from './TypeScriptInterfaceToModelHarvester'
+export * from './TypeScriptClassMethodToModelHarvester'
