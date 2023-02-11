@@ -12,33 +12,17 @@ export class MiscHelpers {
 		if (this.helpersRegistered) return
 		this.helpersRegistered = true
 		Handlebars.registerHelper('Curly', MiscHelpers.prototype.curly)
-		Handlebars.registerHelper('Json', MiscHelpers.prototype.json)
 		// eslint-disable-next-line spellcheck/spell-checker
 		Handlebars.registerHelper('JSONstringifyFormatted', MiscHelpers.prototype.jsonStringifyFormatted)
 		Handlebars.registerHelper('RandomString', MiscHelpers.prototype.randomString)
 		Handlebars.registerHelper('RandomNumber', MiscHelpers.prototype.randomNumber)
 
-		// eslint-disable-next-line spellcheck/spell-checker
-		Handlebars.registerHelper('ifvalue', MiscHelpers.prototype.ifValue)
-		// eslint-disable-next-line spellcheck/spell-checker
-		Handlebars.registerHelper('ifvaluein', MiscHelpers.prototype.ifValueIn)
 		Handlebars.registerHelper('IsNumber', MiscHelpers.prototype.isNumber)
 		Handlebars.registerHelper('findComponents', MiscHelpers.prototype.findComponents)
 	}
 
 	curly(aString: any): string {
 		return `{${aString}}`
-	}
-
-	json(anObject: any): string {
-		let result = ''
-		if (anObject != null)
-			Object.keys(anObject).forEach((key) => {
-				const value = anObject[key]
-				if (typeof value === 'object') result += `${key}: [object], `
-				else result += `${key}: ${value}, `
-			})
-		return `{${result}}`
 	}
 
 	jsonStringifyFormatted(anObject: any): string {
@@ -59,22 +43,6 @@ export class MiscHelpers {
 
 	randomNumber(max: any): number {
 		return Math.floor(Math.random() * max)
-	}
-
-	ifValue(this: any, conditional: any, options: any): string {
-		if (options.hash.equals === conditional) return options.fn(this)
-		return options.inverse(this)
-	}
-
-	ifValueIn(this: any, conditional: any, options: any): any {
-		if (typeof options.hash.equals === 'string') {
-			const choices = options.hash.equals.split(',')
-			for (let index = 0; index < choices.length; index++) {
-				choices[index] = choices[index].trim()
-			}
-			if (choices.includes(conditional)) return options.fn(this)
-		}
-		return options.inverse(this)
 	}
 
 	isNumber(this: any, value: any, options: any): any {

@@ -20,14 +20,6 @@ describe('curly', () => {
 	})
 })
 
-describe('json', () => {
-	it('basic values', async () => {
-		const helpers = new MiscHelpers()
-		expect(helpers.json({ someValue: 'string' })).toBe(`{someValue: string, }`)
-		expect(helpers.json({ someValue: 'string', another: { innerText: 'text' } })).toBe(`{someValue: string, another: [object], }`)
-	})
-})
-
 describe('jsonStringifyFormatted', () => {
 	it('basic values', async () => {
 		const helpers = new MiscHelpers()
@@ -56,38 +48,6 @@ describe('randomNumber', () => {
 		const result = helpers.randomNumber(50)
 		expect(result).toBeGreaterThanOrEqual(0)
 		expect(result).toBeLessThanOrEqual(50)
-	})
-})
-
-// eslint-disable-next-line spellcheck/spell-checker
-describe('ifvalue', () => {
-	it('in template', async () => {
-		MiscHelpers.registerAll()
-		// eslint-disable-next-line spellcheck/spell-checker
-		const template = Handlebars.compile('{{#ifvalue this.property equals="TOAST"}}works{{else}}jam{{/ifvalue}}', {
-			noEscape: true,
-		})
-		let newContent = template({ property: 'TOAST' })
-		expect(newContent).toBe('works')
-		newContent = template(false)
-		expect(newContent).toBe('jam')
-	})
-})
-
-// eslint-disable-next-line spellcheck/spell-checker
-describe('ifvaluein', () => {
-	it('in template', async () => {
-		MiscHelpers.registerAll()
-		// eslint-disable-next-line spellcheck/spell-checker
-		const template = Handlebars.compile('{{#ifvaluein this.name equals="toast,bagel,scone"}}jam{{else}}peanut butter{{/ifvaluein}}', {
-			noEscape: true,
-		})
-		let newContent = template({ name: 'toast' })
-		expect(newContent).toBe('jam')
-		newContent = template({ name: 'scone' })
-		expect(newContent).toBe('jam')
-		newContent = template({ name: 'egg' })
-		expect(newContent).toBe('peanut butter')
 	})
 })
 

@@ -6,15 +6,9 @@ export class StringHelpers {
 	static registerAll(): void {
 		if (this.helpersRegistered) return
 		this.helpersRegistered = true
-		Handlebars.registerHelper('SafeString', StringHelpers.prototype.safeString)
 		Handlebars.registerHelper('NoCrString', StringHelpers.prototype.noCrString)
 		Handlebars.registerHelper('Replace', StringHelpers.prototype.replace)
 		Handlebars.registerHelper('ToTsTemplate', StringHelpers.prototype.toTsTemplate)
-	}
-
-	safeString(aString: any): Handlebars.SafeString | null {
-		if (aString == null) return null
-		return new Handlebars.SafeString(aString)
 	}
 
 	noCrString(aString: any): Handlebars.SafeString | null {

@@ -57,9 +57,9 @@ describe('run', () => {
 		expect(identifiableParentClass.inheritsFrom.length).toBe(0)
 		expect(identifiableParentClass.implements.length).toBe(0)
 
-		expect(githubIdentityClass.inheritsFrom[0]).toBe(identityClass)
-		expect(identityClass.implements[0]).toBe(identifiableClass)
-		expect(messageClass.implements[0]).toBe(identifiableClass)
-		expect(identifiableClass.inheritsFrom[0]).toBe(identifiableParentClass)
+		expect(githubIdentityClass.inheritsFrom[0]).toBe(identityClass.fullConstantCaseName)
+		expect(identityClass.implements[0]).toBe(identifiableClass.fullConstantCaseName)
+		expect(messageClass.implements[0]).toBe(identifiableClass.fullConstantCaseName)
+		expect(identifiableClass.inheritsFrom[0]).toBe(identifiableParentClass.fullConstantCaseName)
 	})
 })

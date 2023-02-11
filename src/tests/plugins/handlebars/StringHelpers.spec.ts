@@ -28,14 +28,6 @@ describe('in template', () => {
 	})
 })
 
-describe('safeString', () => {
-	it('basic values', async () => {
-		const helpers = new StringHelpers()
-		expect(helpers.safeString('do not care')?.toString()).toBe(`do not care`)
-		expect(helpers.safeString(null)).toBe(null)
-	})
-})
-
 describe('replace', () => {
 	it('basic values', async () => {
 		const helpers = new StringHelpers()

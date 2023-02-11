@@ -14,11 +14,11 @@ export class ObjectType extends ValueType implements StringIdentifiable {
 
 	pluralName: string
 
-	inheritsFrom: ObjectType[]
+	inheritsFrom: string[]
 
-	implements: ObjectType[]
+	implements: string[]
 
-	derivations: ObjectType[]
+	derivations: string[]
 
 	private _members: { [key: string]: ObjectTypeMember }
 
