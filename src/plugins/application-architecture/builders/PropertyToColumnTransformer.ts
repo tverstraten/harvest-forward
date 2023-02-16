@@ -52,7 +52,7 @@ export class PropertyToColumnTransformer extends AbstractSingularBuilder {
 		const valueType = property.type
 		let ansiTypeDeclaration
 		const hasLengthRule = property.rules?.find((rule) => rule instanceof LengthRule)
-		const length = hasLengthRule ? (hasLengthRule as LengthRule).length : 255
+		const length = hasLengthRule ? (hasLengthRule as LengthRule).maximum : 255
 		switch (property.type) {
 			case ValueType.dateTime:
 				dataType = 'DATETIME'

@@ -15,12 +15,6 @@ The npm project handlebars-helpers has been added, you can find all of their ext
 | NoCrString             |            |             |
 | Replace                |            |             |
 | ToTsTemplate           |            |             |
-| SentenceCase           |            |             |
-| CapitalCase            |            |             |
-| ConstantCase           |            |             |
-| PascalCase             |            |             |
-| CamelCase              |            |             |
-| SnakeCase              |            |             |
 | Singular               |            |             |
 | Plural                 |            |             |
 | CSharp                 |            |             |
