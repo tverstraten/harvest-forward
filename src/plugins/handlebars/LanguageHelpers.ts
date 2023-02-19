@@ -1,5 +1,5 @@
-import Handlebars from 'handlebars'
 import { Logging } from '@tverstraten/log-annotations'
+import Handlebars from 'handlebars'
 import { ProgrammingLanguage } from '../../system/ProgrammingLanguage'
 
 export class LanguageHelpers {
@@ -26,50 +26,50 @@ export class LanguageHelpers {
 	}
 
 	private toTypeInLanguage(language: ProgrammingLanguage, type: any): string {
-		return type ? (typeof type == 'string' ? type : type.inLanguage(language)) : 'undefined'
+		return type ? (typeof type == 'string' ? type : type.toNameInLanguage(language)) : 'undefined'
 	}
 
 	cSharp(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.cSharp, type)
+		return type.toNameInLanguage(ProgrammingLanguage.cSharp)
 	}
 
 	go(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.go, type)
+		return type.toNameInLanguage(ProgrammingLanguage.go)
 	}
 
 	javaScript(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.javaScript, type)
+		return type.toNameInLanguage(ProgrammingLanguage.javaScript)
 	}
 
 	java(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.java, type)
+		return type.toNameInLanguage(ProgrammingLanguage.java)
 	}
 
 	php(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.php, type)
+		return type.toNameInLanguage(ProgrammingLanguage.php)
 	}
 
 	python(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.python, type)
+		return type.toNameInLanguage(ProgrammingLanguage.python)
 	}
 
 	sql(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.sql, type)
+		return type.toNameInLanguage(ProgrammingLanguage.sql)
 	}
 
 	tSql(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.tSql, type)
+		return type.toNameInLanguage(ProgrammingLanguage.tSql)
 	}
 
 	typeScript(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.typeScript, type)
+		return type.toNameInLanguage(ProgrammingLanguage.typeScript)
 	}
 
 	visualBasic(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.visualBasic, type)
+		return type.toNameInLanguage(ProgrammingLanguage.visualBasic)
 	}
 
 	visualBasicNet(type: any): string {
-		return this.toTypeInLanguage(ProgrammingLanguage.visualBasicNet, type)
+		return type.toNameInLanguage(ProgrammingLanguage.visualBasicNet)
 	}
 }

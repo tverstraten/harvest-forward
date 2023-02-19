@@ -66,11 +66,11 @@ export class TypeScriptClassMethodToModelHarvester extends AbstractTypeScriptAst
 							let returnType
 							try {
 								returnType = system.descendants[fullName] as ValueType
-								if (returnType == null) returnType = ValueType.fromNameInType(ProgrammingLanguage.typeScript, typeName)
+								if (returnType == null) returnType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, typeName)
 								if (isArray) returnType = returnType.asCollection
 							} catch (problem) {
 								_thisThis.logger.error(`harvestFromAst(failed) ${problem}`)
-								returnType = ValueType.fromNameInType(ProgrammingLanguage.typeScript, 'string')
+								returnType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, 'string')
 							}
 
 							const newMethod = new Method(representedClass.constantCaseFullName, memberName, memberDocumentationText)
@@ -91,10 +91,10 @@ export class TypeScriptClassMethodToModelHarvester extends AbstractTypeScriptAst
 								const fullParameterTypeName = SystemComponent.fullConstantCase(model.fullConstantCaseName, parameterTypeName)
 								try {
 									parameterType = system.descendants[fullParameterTypeName] as ValueType
-									if (parameterType == null) parameterType = ValueType.fromNameInType(ProgrammingLanguage.typeScript, parameterTypeName)
+									if (parameterType == null) parameterType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, parameterTypeName)
 								} catch (problem) {
 									_thisThis.logger.error(`harvestFromAst(failed) ${problem}`)
-									parameterType = ValueType.fromNameInType(ProgrammingLanguage.typeScript, 'string')
+									parameterType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, 'string')
 								}
 
 								const parameter = new Parameter(newMethod.fullConstantCaseName, parameterName, parameterDescription, parameterType, 0)

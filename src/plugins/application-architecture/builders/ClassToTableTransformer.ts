@@ -17,6 +17,7 @@ export class ClassToTableTransformer extends AbstractSingularBuilder {
 			objectTypeName: 'Class',
 			permanence: 'persistent',
 			componentType: 'informationModel',
+			isAbstract: false,
 		})
 		super(
 			'A transformer that creates a table in an rdbms database for each concrete class in the model',

@@ -57,6 +57,21 @@ export class ObjectType extends ValueType implements StringIdentifiable {
 		return Object.values(this._members).sort(SystemComponentComparator)
 	}
 
+	get allDataMembers(): ObjectTypeDataMember[] {
+		let dataMembers = [] as ObjectTypeDataMember[]
+		dataMembers = dataMembers.concat(Object.values(this._dataMembers))
+
+		this.inheritsFrom.forEach((parentName: string) => {
+			const parentClass = this.parent?.children[parentName]
+			if (parentClass) {
+				const parentMembers = (parentClass as ObjectType).allDataMembers
+				dataMembers = parentMembers.concat(dataMembers)
+			}
+		})
+
+		return dataMembers
+	}
+
 	get dataMembersMap(): { [key: string]: ObjectTypeDataMember } {
 		return this._dataMembers
 	}

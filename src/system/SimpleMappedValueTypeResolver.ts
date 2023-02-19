@@ -5,67 +5,38 @@ import { ValueTypeResolver } from './ValueTypeResolver'
 export class SimpleMappedValueTypeResolver implements ValueTypeResolver {
 	readonly language: ProgrammingLanguage
 
-	readonly optionalValueTypes: Record<string, string>
+	readonly types: Map<ValueType, string>
 
-	readonly mandatoryValueTypes: Record<string, string>
+	private reverseMap: Map<string, ValueType>
 
-	private mandatoryNames: string[]
-
-	constructor(language: ProgrammingLanguage, mandatoryValueTypes: Record<string, string>, optionalValueTypes: Record<string, string>) {
+	constructor(language: ProgrammingLanguage, types: Map<ValueType, string>) {
 		this.language = language
-		this.mandatoryValueTypes = mandatoryValueTypes
-		this.optionalValueTypes = optionalValueTypes
+		this.types = types
 
-		this.mandatoryNames = []
-		Object.keys(mandatoryValueTypes).forEach((key) => {
-			const entry = mandatoryValueTypes[key]
-			this.mandatoryNames.push(entry)
+		this.reverseMap = new Map<string, ValueType>()
+
+		types.forEach((name, type) => {
+			this.reverseMap.set(name, type)
 		})
 	}
 
 	doesSupport(language: ProgrammingLanguage): boolean {
-		if (!language) throw RangeError(`language was not specified`)
 		return this.language === language
 	}
 
-	doesMap(type: ValueType): boolean {
-		if (this.mandatoryValueTypes[type.name] || this.optionalValueTypes[type.name]) return true
-		return false
+	doesMap(typeName: string): boolean {
+		return this.reverseMap.has(typeName)
 	}
 
-	hasName(name: string): boolean {
-		if (!name) throw RangeError(`name was not specified`)
-		return this.mandatoryNames.includes(name)
-	}
-
-	fromType(originalType: ValueType, optional = false): string {
-		let result
-		if (!originalType.primitive) return originalType.name
-
-		if (optional) {
-			result = this.optionalValueTypes[originalType.name]
-			if (result) return result
-		} else {
-			result = this.mandatoryValueTypes[originalType.name]
-			if (result) return result
-		}
-		throw RangeError(`${originalType.name} is not a supported type`)
-	}
-
-	toTypeName(name: string): string | undefined {
-		if (!name) throw RangeError(`name was not specified`)
-		return this.mandatoryValueTypes[name]
+	fromType(type: ValueType): string | undefined {
+		return this.types.get(type)
 	}
 
 	toType(name: string): ValueType | undefined {
-		if (!name) throw RangeError(`name was not specified`)
+		return this.reverseMap.get(name)
+	}
 
-		const mappedName = this.mandatoryValueTypes[name]
-		for (let index = 0; index < ValueType.types.length; index++) {
-			const type = ValueType.types[index]
-			if (mappedName === type.name) return type
-		}
-
-		return undefined
+	toTypeName(name: string): string | undefined {
+		return this.toType(name)?.name
 	}
 }

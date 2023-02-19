@@ -1,3 +1,4 @@
+/* eslint-disable max-depth */
 import ts, { ClassDeclaration, Expression, PropertyDeclaration, SyntaxKind } from 'typescript'
 import { Artifact } from '../../system/Artifact'
 import { ComponentOrigin } from '../../system/ComponentOrigin'
@@ -50,10 +51,24 @@ export class TypeScriptClassPropertyToModelHarvester extends AbstractTypeScriptA
 							let typeName
 							if (typeNode == null && member.initializer) {
 								const definingInitializer = member.initializer as Expression
-								typeNode = (definingInitializer as any).type
+								if ((definingInitializer as any).type) typeNode = (definingInitializer as any).type
+								else {
+									const initializerText = definingInitializer.getText(ast)
+									if (initializerText) {
+										if (!isNaN(parseInt(initializerText))) typeName = 'INT'
+										else if (!isNaN(parseFloat(initializerText))) typeName = 'FLOAT'
+										else {
+											const asJson = JSON.parse(initializerText)
+											if (typeof asJson == 'boolean') typeName = 'BOOLEAN'
+										}
+									}
+								}
 							}
-							if (typeNode == null) typeName = 'string'
-							else typeName = typeNode.getText(ast)
+							if (!typeName) {
+								if (typeNode == null) typeName = 'string'
+								else typeName = typeNode.getText(ast)
+							}
+
 							if (typeName.indexOf('|') >= 0) {
 								typeName = typeName.substr(0, typeName.indexOf('|')).trim()
 							}
@@ -69,11 +84,11 @@ export class TypeScriptClassPropertyToModelHarvester extends AbstractTypeScriptA
 							let propertyType
 							try {
 								propertyType = system.descendants[fullName] as ValueType
-								if (propertyType == null) propertyType = ValueType.fromNameInType(ProgrammingLanguage.typeScript, typeName)
+								if (propertyType == null) propertyType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, typeName)
 								if (isArray) propertyType = propertyType.asCollection
 							} catch (problem) {
 								_thisThis.logger.error(`harvestFromAst(failed) ${problem}`)
-								propertyType = ValueType.fromNameInType(ProgrammingLanguage.typeScript, 'string')
+								propertyType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, 'string')
 							}
 							const newProperty = new Property(representedClass.constantCaseFullName, memberName, memberDocumentationText, propertyType, 0)
 							newProperty.permanence = Permanence.persistent

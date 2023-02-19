@@ -1,0 +1,52 @@
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Model;
+
+/// <summary>
+/// mapping settings for the classes
+/// </summary>
+namespace Dal
+{
+    /// <summary>
+    /// utility for binding the model to entity framework
+    /// </summary>
+    public class MappingBuilder
+    {
+        /// <summary>
+        /// Map all elements of the model to the context
+        /// </summary>
+        public static void Map(ModelBuilder modelBuilder)
+        {
+       {{#findComponents this "{ 'componentType': 'dataAccess' }"}}
+            {{#if @first}}modelBuilder.HasDefaultSchema("{{this.schemaName}}");{{/if}}
+            modelBuilder.Entity<{{this.class.name}}>(mapping =>
+            {
+                mapping.ToTable("{{this.tableName}}");
+{{#if this.storage.primaryKey}}
+                mapping.HasKey(prop => prop.{{PascalCase this.storage.primaryKey.name}});
+{{/if}}
+{{#each this.properties}}
+{{#if this.property.type.primitive}}
+                mapping.Property(prop => prop.{{PascalCase this.property.name}})
+                    .HasColumnName("{{PascalCase this.property.orMapping.column.name}}")                    
+                    .HasField("_{{this.property.name}}")
+                    .UsePropertyAccessMode(PropertyAccessMode.PreferFieldDuringConstruction){{#unless this.property.orMapping.column.valueType.isOptional}}
+                    .IsRequired(){{/unless}}{{#if this.property.orMapping.column.characterMaximumLength}}
+                    .HasMaxLength({{this.property.orMapping.column.characterMaximumLength}}){{/if}};
+{{else}}
+{{#if this.property.type.isCollection}}
+                // {{PascalCase this.property.name}} is a collection. its mapped by its inverse
+{{else}}
+                mapping.Property(prop => prop.{{PascalCase this.property.name}})
+                    .HasColumnName("{{PascalCase this.property.orMapping.column.name}}")                    
+                    .HasField("_{{this.property.name}}");
+                mapping.HasOne(prop => prop.{{PascalCase this.property.name}})
+                    .WithMany(prop => prop.{{PascalCase this.property.orMapping.column.foreignKey.targetTable}});
+{{/if}}
+{{/if}}
+{{/each}}
+            });
+{{/findComponents}}
+        }
+    }
+}

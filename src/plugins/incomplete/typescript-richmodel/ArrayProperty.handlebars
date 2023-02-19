@@ -1,0 +1,68 @@
+    /**
+     * the property to test
+     */
+    private _relPropName: Array<PropType> | undefined;
+
+    /**
+     * Gets the value of the relPropName property.
+     * @returns The value of the relPropName property
+     */
+    get relPropName(): Array<PropType> | undefined {
+        return this.getArrayProperty('_relPropName');
+    }
+
+    /**
+     * Add one item to the collection property relPropName
+     * @param newValue the new value to add into the property
+     */
+    addOneUPropName(newValue: PropType): void {
+        return this.addOneArrayProperty('_relPropName', newValue);
+    }
+
+    /**
+     * Remove one item from the collection property relPropName
+     * @param oldValue the value to remove from the property
+     */
+    removeOneUPropName(oldValue: PropType): void {
+        return this.removeOneArrayProperty('_relPropName', oldValue);
+    }
+
+    /**
+     * Add a set of relPropName into to the collection property relPropName
+     * @param newValues the new values to add into the property
+     */
+    addManyUPropName(newValues: Array<PropType>): void {
+        return this.addManyArrayProperty('_relPropName', newValues);
+    }
+
+    /**
+     * Remove a set of relPropName from the collection property relPropName
+     * @param oldValues the values to remove from the property
+     */
+    removeManyUPropName(oldValues: Array<PropType>): void {
+        return this.removeManyArrayProperty('_relPropName', oldValues);
+    }
+
+    /**
+     * Clear all relPropName from the collection property relPropName
+     */
+    clearUPropName(): void {
+        return this.clearArrayProperty('_relPropName');
+    }
+
+    /**
+     * get the numbre of entries inside of relPropName
+     * @returns the current numbre of entries in relPropName
+     */
+    sizeofUPropName(): number {
+        return (this._relPropName == null) ? 0 : this._relPropName.length;
+    }
+
+    /**
+     * does relPropName contain the given entry already?
+     * @param entryToCheck the object to look for in the set
+     * @returns true if entryToCheck is currently inside of relPropName
+     */
+    relPropNameHas(entryToCheck: PropType): boolean {
+        return (this._relPropName == null) ? false : this._relPropName.includes(entryToCheck);
+    }

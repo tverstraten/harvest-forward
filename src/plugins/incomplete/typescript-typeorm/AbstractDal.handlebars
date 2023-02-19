@@ -1,0 +1,66 @@
+/**
+ * NOTE: this is a generated file, do not edit it will be overwritten 
+ */
+import { createConnection, Connection } from "typeorm"
+import * as dotenv from "dotenv"
+import { User } from "@hfadmin/app-model"
+import { UserDal } from "./UserDal"
+
+dotenv.config();
+
+/**
+ * abstract point of inheritance for dal classes
+ * @param T the type of object the dal will be managed
+ */
+export abstract class AbstractDal {
+
+    /**
+     * the identity of the user performing the current operation
+     */
+    currentUserId: number
+
+    /**
+     * the current connection in use for this
+     */
+    currentConnection?: Connection
+
+    /**
+     * create a new instance of the object
+     * @param userId - the id of the user currently acting on data for the life of this dal
+     */
+    constructor(userId: number) {
+        this.currentUserId = userId
+    }
+
+    /**
+     * get a connection to the database
+     * @returns the connection
+     */
+    async getConnection(): Promise<Connection> {
+        if (this.currentConnection == null) {
+            let connection = await createConnection({
+                type: "mysql",
+                host: process.env.AWS_REGION,
+                port: 3306,
+                username: process.env.AWS_REGION,
+                password: process.env.AWS_REGION,
+                database: process.env.AWS_REGION
+            })
+            this.currentConnection = connection
+        }
+
+        return this.currentConnection
+    }
+
+    /**
+     * get the current user
+     * @returns the current user
+     */
+    async getCurrentUser(): Promise<User> {
+        let userDal = new UserDal(this.currentUserId)
+        let user = await userDal.findOneById(this.currentUserId)
+        if (user == null)
+            throw Error(`Current user is unknown, their id is ${this.currentUserId}`)
+        return user
+    }
+}

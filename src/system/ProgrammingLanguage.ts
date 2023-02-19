@@ -7,6 +7,8 @@ export class ProgrammingLanguage implements Nameable {
 		this.name = name
 	}
 
+	static generic = new ProgrammingLanguage('Generic')
+
 	static cSharp = new ProgrammingLanguage('CSharp')
 
 	static go = new ProgrammingLanguage('Go')
@@ -34,6 +36,7 @@ export class ProgrammingLanguage implements Nameable {
 	static visualBasic = new ProgrammingLanguage('VisualBasic')
 
 	static recognizedLanguages = [
+		ProgrammingLanguage.generic,
 		ProgrammingLanguage.cSharp,
 		ProgrammingLanguage.go,
 		ProgrammingLanguage.java,

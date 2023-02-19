@@ -1,0 +1,79 @@
+    /**
+     * the property to test
+     */
+    private _relPropName: EnhancedMap<KeyType, ValueType> | undefined;
+
+    /**
+     * Gets the value of the relPropName property.
+     * @returns The value of the relPropName property
+     */
+    get relPropName(): EnhancedMap<KeyType, ValueType> | undefined {
+        return this.getMapProperty('_relPropName');
+    }
+
+    /**
+     * get one item from the collection property relPropName
+     * @param newValue the key of the value to get from the property
+     * @returns The value of entry with the specified key in the PROPERTY property
+     */
+    getUPropName(key: KeyType): ValueType | undefined {
+        return this.getOneMapProperty('_relPropName', key);
+    }
+
+    /**
+     * Set one item into the collection property relPropName
+     * @param newKey the key of the value to add to the property
+     * @param value the value to add to the property
+     */
+    setUPropName(newKey: KeyType, value: ValueType): void {
+        return this.setOneMapProperty('_relPropName', newKey, value);
+    }
+
+    /**
+     * remove one item from the collection property relPropName
+     * @param key the key of the value to remove to the property
+     */
+    removeUPropName(key: number): void {
+        return this.removeOneMapProperty('_relPropName', key);
+    }
+
+    /**
+     * Set a collection of items into the collection property relPropName
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param values the key, value pairs to add to the property
+     */
+    setManyUPropName<K, V>(internalPropertyName: string, values: { key: K, value: V }[]): void {
+        return this.setManyMapProperty('_relPropName', values);
+    }
+
+    /**
+     * remove a collection of items from the collection property relPropName
+     * @param values the keys to remove from the property
+     */
+    removeManyUPropName<K, V>(keys: K[]): void {
+        return this.removeManyMapProperty('_relPropName', keys);
+    }
+
+    /**
+     * Clear all relPropName from the collection property relPropName
+     */
+    clearUPropName(): void {
+        return this.clearMapProperty('_relPropName');
+    }
+
+    /**
+     * get the numbre of entries inside of relPropName
+     * @returns the current numbre of entries in relPropName
+     */
+    sizeofUPropName(): number {
+        return (this._relPropName == null) ? 0 : this._relPropName.size;
+    }
+
+    /**
+     * does relPropName contain the given entry already?
+     * @param entryToCheck the object to look for in the set
+     * @returns true if entryToCheck is currently inside of relPropName
+     */
+    relPropNameHas(entryToCheck: KeyType): boolean {
+        return (this._relPropName == null) ? false : this._relPropName.has(entryToCheck);
+    }

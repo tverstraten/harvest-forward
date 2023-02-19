@@ -6,7 +6,5 @@ export interface ValueSpecification extends SystemDescendantComponent {
 
 	length: number
 
-	optional: boolean
-
 	significantDigits: number
 }

@@ -1,0 +1,285 @@
+using System;
+using Xunit;
+using Dal;
+using Model;
+
+/// <summary>
+/// Data access test classes for model in c# (dotnet core) for {{this.operatesOnBehalfOf.name}}
+///
+/// NOTE: DO NOT EDIT, this is a generated file and will be overwritten
+/// </summary>
+namespace DalEf.UnitTests
+{
+    public class {{this.name}}Test
+    {
+        {{this.name}} dal;
+        {{this.name}} controlledDal;
+
+        {{this.name}}Test()
+        {
+            dal = new {{this.name}}();
+            controlledDal = dal;
+        }
+
+        [Fact] 
+        public void Find_First_2()
+        {
+            var workingResults = dal.FindAllByFilter(null, null, null, null, 1, 2);
+            Assert(workingResults.Length).toBeGreaterThanOrEqual(0);
+            Assert(workingResults.Length).toBeLessThanOrEqual(2);
+        }
+
+        [Fact] 
+        public void Find_First_2_controlled()
+        {
+            var workingResults = controlledDal.FindAllByFilter(null, null, null, null, 1, 2);
+            Assert(workingResults.Length).toBeGreaterThanOrEqual(0);
+            Assert(workingResults.Length).toBeLessThanOrEqual(2);
+        }
+
+{{#if this.operatesOnBehalfOf.identifiable}}	 
+        [Fact] 
+        public void Find_one_by_id()
+        {
+            var workingResults = dal.FindAllByFilter(null, null, null, null, 1, 10);
+            var oneResult = dal.FindOneById(workingResults[0].Id);
+            Assert(oneResult.Id).toBe(workingResults[0].Id);
+        }
+
+        [Fact] 
+        public void Find_one_by_id_controlled()
+        {
+            var workingResults = controlledDal.FindAllByFilter(null, null, null, null, 1, 10);
+            var oneResult = controlledDal.FindOneById(workingResults[0].Id);
+            Assert(oneResult.Id).toBe(workingResults[0].Id);
+        }
+
+        [Fact] 
+        public void Find_one_by_filtered_id()
+        {
+            var workingResults = dal.FindAllByFilter(null, null, null, null, 1, 10);
+            var results = dal.FindAllByFilter($"Id = {workingResults[0].Id}", null, null, null, 1, 10);
+            Assert(results.Length).toBe(1);
+            var oneResult = results[0];
+            Assert(oneResult.Id).toBe(workingResults[0].Id);
+        }
+
+        [Fact] 
+        public void Find_one_by_filtered_id_controlled()
+        {
+            var workingResults = controlledDal.FindAllByFilter(null, null, null, null, 1, 10);
+            var results = controlledDal.FindAllByFilter($"Id = {workingResults[0].Id}", null, null, null, 1, 10);
+            Assert(results.Length).toBe(1);
+            var oneResult = results[0];
+            Assert(oneResult.Id).toBe(workingResults[0].Id);
+        }
+
+        [Fact] 
+        public void Find_one_page_ordered_by_id()
+        {
+            var workingResults = dal.FindAllByFilter(null, null, null, ['Id'], 1, 10);
+            var oneResult = dal.FindOneById(workingResults[0].Id);
+            Assert(oneResult.Id).toBe(workingResults[0].Id);
+        }
+
+        [Fact] 
+        public void Find_one_page_ordered_by_id_controlled()
+        {
+            var workingResults = controlledDal.FindAllByFilter(null, null, null, ['Id'], 1, 10);
+            var oneResult = controlledDal.FindOneById(workingResults[0].Id);
+            Assert(oneResult.Id).toBe(workingResults[0].Id);
+        }
+    
+{{/if}}
+
+        /**
+        * test the expansion of foreign key properties
+        */
+    {{#each this.operatesOnBehalfOf.properties}}{{#if this.type.isClass}}{{#unless this.type.isExternal}}
+        [Fact] 
+        public void Find_one_and_expand_property{{this.name}}_to_{{TypeScript this.type}}()
+        {
+            var workingResults = dal.FindAllByFilter(null, null, null, null, 1, 10);
+            var results = dal.FindAllByFilter($"Id = {workingResults[0].Id}", null, ['{{PascalCase this.name}}'], null, 1, 10);
+            Assert(results.Length).toBe(1);
+            var oneResult = results[0];
+            Assert(oneResult.Id).toBe(workingResults[0].Id);
+        }
+
+        [Fact]     
+        public void Find_one_and_expand_controlled_property_{{this.name}}_to_{{TypeScript this.type}}()
+        {
+            var workingResults = controlledDal.FindAllByFilter(null, null, null, null, 1, 10);
+            var results = controlledDal.FindAllByFilter($"Id = {workingResults[0].Id}", null, ['{{PascalCase this.name}}'], null, 1, 10);
+            Assert(results.Length).toBe(1);
+            var oneResult = results[0];
+            Assert(oneResult.Id).toBe(workingResults[0].Id);
+        }{{/unless}}{{/if}}{{/each}}
+
+{{#if this.operatesOnBehalfOf.identifiable}}{{#if this.operatesOnBehalfOf.updateable}}
+        /**
+        * test basic crud operations
+        */
+        [Fact]
+        public void Create_one_then_update()
+        {
+            var newObject = new {{this.operatesOnBehalfOf.name}}();
+
+            // assign value to each property
+{{#each this.operatesOnBehalfOf.properties}}
+{{#ifvaluein this.name equals="Id, createtime, updatetime"}}
+{{else}}
+{{#if this.foreignIdentityFor}}
+            // foreign key resolution for {{PascalCase this.name}} backing {{PascalCase this.foreignIdentityFor.name}}
+            var dal{{this.name}} = new {{this.foreignIdentityFor.type.name}}Dal());
+            dal{{PascalCase this.name}}.setUserForRequest(new UserIdentification(2, UserType.admin_user));
+            var fk_{{PascalCase this.name}} = dal{{this.name}}.FindAllByFilter('', null, null, null, 1, 1);  // just take the first
+            if (fk_{{PascalCase this.name}}.Length > 0) {
+                newObject.{{PascalCase this.foreignIdentityFor.name}} = fk_{{PascalCase this.name}}[0] as any; 
+                newObject.{{PascalCase this.name}} = (fk_{{PascalCase this.name}}[0] as any).Id;
+            }
+{{else}}
+{{#ifvalue this.type.name equals="dateTime"}}
+            newObject.{{PascalCase this.name}} = new Date(); // Date
+            newObject.{{PascalCase this.name}}.setMilliseconds(0); // rounding for db
+{{else}}
+{{#ifvalue this.type.name equals="boolean"}}
+            newObject.{{PascalCase this.name}} = true; // {{this.type.name}}
+{{else}}
+{{#ifvalue this.type.name equals="string"}}
+            newObject.{{PascalCase this.name}} = TestHelper.randomString({{this.Length}}); // string {{this.Length}}
+{{else}}
+{{#ifvalue this.type.name equals="int"}}
+            newObject.{{PascalCase this.name}} = 6; // {{this.type.name}}
+{{else}}
+{{#ifvalue this.type.name equals="float"}}
+            newObject.{{PascalCase this.name}} = 5.3; // {{this.type.name}}
+{{else}}
+{{#ifvalue this.type.name equals="decimal"}}
+            newObject.{{PascalCase this.name}} = 5; // {{this.type.name}}
+{{else}}
+{{#if this.foreignIdentitifiedBy}}
+{{else}}
+{{#if this.type.isEnumeration }}
+            newObject.{{PascalCase this.name}} = {{this.type.name}}.{{#each this.type.values}}{{#if @first}}{{PascalCase this.name}}{{/if}}{{/each}}; 
+{{else}}
+{{#if this.type.isCollection }}
+            // TODO: collections not implemented yet ({{this.type.name}}), skipping {{PascalCase this.name}}
+{{else}}
+            // TODO: unknown category ({{this.type.name}}), skipping {{PascalCase this.name}}
+{{/if}}
+{{/if}}
+{{/if}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/if}}
+{{/ifvaluein}}
+{{/each}}
+
+            // save and reload
+            var newObjectId = dal.Create(newObject);
+            var savedObject = dal.FindOneById(newObjectId, [{{#each this.operatesOnBehalfOf.properties}}{{#if this.foreignIdentitifiedBy}}'{{PascalCase this.name}}'{{#unless @last}},{{/unless}}{{/if}}{{/each}}]);
+
+            // compare the two objects to ensure that the values it was created with were saved
+{{#each this.operatesOnBehalfOf.properties}}
+{{#ifvaluein this.name equals="Id, createtime, updatetime"}}
+{{else}}
+{{#if this.foreignIdentitifiedBy}}
+            Assert(savedObject.{{PascalCase this.name}}.Id).toBe(newObject.{{PascalCase this.name}}.Id);
+{{else}}
+{{#ifvalue this.type.name equals="dateTime"}}
+            Assert(savedObject.{{PascalCase this.name}}.getTime()).toBe(newObject.{{PascalCase this.name}}.getTime());
+{{else}}
+            Assert(savedObject.{{PascalCase this.name}}).toBe(newObject.{{PascalCase this.name}});
+{{/ifvalue}}
+{{/if}}
+{{/ifvaluein}}
+{{/each}}
+     
+            // update
+            newObject.Id = newObjectId as number;
+{{#each this.operatesOnBehalfOf.properties}}
+{{#ifvaluein this.name equals="Id, createtime, updatetime"}}
+{{else}}
+{{#if this.foreignIdentityFor}}
+            // foreign key resolution for {{PascalCase this.name}} backing {{PascalCase this.foreignIdentityFor.name}}
+            dal{{PascalCase this.name}}.setUserForRequest(new UserIdentification(2, UserType.admin_user));
+            var fk_{{PascalCase this.name}}_2 = dal{{this.name}}.FindAllByFilter('', null, null, null, 2, 1);  // choose the second so its different
+            if (fk_{{PascalCase this.name}}_2.Length > 0) {
+                newObject.{{PascalCasethis.foreignIdentityFor.name}} = fk_{{PascalCase this.name}}_2[0] as any; 
+                newObject.{{PascalCase this.name}} = (fk_{{PascalCase this.name}}_2[0] as any).Id;
+            }
+{{else}}
+{{#ifvalue this.type.name equals="dateTime"}}
+            newObject.{{PascalCase this.name}} = new Date(); // Date
+            newObject.{{PascalCase this.name}}.setMilliseconds(0); // rounding for db
+{{else}}
+{{#ifvalue this.type.name equals="boolean"}}
+            newObject.{{PascalCase this.name}} = false; // {{this.type.name}}
+{{else}}
+{{#ifvalue this.type.name equals="string"}}
+            newObject.{{PascalCase this.name}} = TestHelper.randomString({{this.Length}}); // string {{this.Length}}
+{{else}}
+{{#ifvalue this.type.name equals="int"}}
+            newObject.{{PascalCase this.name}} = 92; // {{this.type.name}}
+{{else}}
+{{#ifvalue this.type.name equals="float"}}
+            newObject.{{PascalCase this.name}} = 743.9; // {{this.type.name}}
+{{else}}
+{{#ifvalue this.type.name equals="decimal"}}
+            newObject.{{PascalCase this.name}} = 37; // {{this.type.name}}
+{{else}}
+{{#if this.foreignIdentitifiedBy}}
+{{else}}
+{{#if this.type.isEnumeration }}
+            newObject.{{PascalCase .name}} = {{this.type.name}}.{{#each this.type.values}}{{#if @last}}{{PascalCase this.name}}{{/if}}{{/each}}; 
+{{else}}
+{{#if this.type.isCollection }}
+            // TODO: collections not implemented yet ({{this.type.name}}), skipping {{this.name}}
+{{else}}
+            // TODO: unknown category ({{this.type.name}}), skipping {{this.name}}
+{{/if}}
+{{/if}}
+{{/if}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/ifvalue}}
+{{/if}}
+{{/ifvaluein}}
+{{/each}}
+
+            // save and reload
+            dal.save(newObject);
+            var reloadedObject = dal.FindOneById(newObjectId, [{{#each this.operatesOnBehalfOf.properties}}{{#if this.foreignIdentitifiedBy}}'{{PascalCase this.name}}'{{#unless @last}},{{/unless}}{{/if}}{{/each}}]);
+
+            // compare the two objects to ensure that the updated properties were in fact saved
+{{#each this.operatesOnBehalfOf.properties}}
+{{#ifvaluein this.name equals="Id, createtime, updatetime"}}
+{{else}}
+{{#if this.foreignIdentitifiedBy}}
+            Assert(reloadedObject.{{PascalCase this.name}}.Id).toBe(newObject.{{PascalCase this.name}}.Id); // {{this.type.name}}
+{{else}}
+{{#ifvalue this.type.name equals="dateTime"}}
+            Assert(reloadedObject.{{PascalCase this.name}}.getTime()).toBe(newObject.{{PascalCase this.name}}.getTime()); // {{this.type.name}}
+{{else}}
+            Assert(reloadedObject.{{PascalCase this.name}}).toBe(newObject.{{PascalCase this.name}}); // {{this.type.name}}
+{{/ifvalue}}
+{{/if}}
+{{/ifvaluein}}
+{{/each}}
+
+            // delete and check that its gone
+            dal.RemoveOneById(newObjectId);
+            var objectAfterDelete = dal.FindOneById(newObjectId);
+            Assert(objectAfterDelete).toBeNull();
+        }
+    }
+{{/if}}{{/if}}
+}

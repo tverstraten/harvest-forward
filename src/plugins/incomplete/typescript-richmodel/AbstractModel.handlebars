@@ -1,0 +1,284 @@
+/**
+ * A base point of inheritence for most informational and operational objects. it contains
+ * helper methods for standardized objects. most importantly, methods for working with different
+ * types of collected properties
+ */
+export abstract class AbstractModel {
+    /**
+     * Gets the value of the PROPERTY property.
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @returns The value of the PROPERTY property
+     */
+    getSetProperty<T>(internalPropertyName: string): EnhancedSet<T> {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] == null)
+            thisAny[internalPropertyName] = new EnhancedSet<T>();
+        return thisAny[internalPropertyName];
+    }
+
+    /**
+     * Add one item to the collection property PROPERTY
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param newValue the new value to add into the property
+     */
+    addOneSetProperty<T>(internalPropertyName: string, newValue: T) {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] == null)
+            thisAny[internalPropertyName] = new EnhancedSet<T>();
+        if (thisAny[internalPropertyName] != null && !thisAny[internalPropertyName].has(newValue)) {
+            (thisAny[internalPropertyName] as EnhancedSet<T>).add(newValue);
+        }
+    }
+
+    /**
+     * Remove one item from the collection property PROPERTY
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param oldValue the value to remove from the property
+     */
+    removeOneSetProperty<T>(internalPropertyName: string, oldValue: T) {
+        const thisAny = this as any;
+        const propertyAsSet = thisAny[internalPropertyName] as EnhancedSet<T>;
+        if (propertyAsSet != null && propertyAsSet.has(oldValue)) {
+            propertyAsSet.delete(oldValue);
+            if (propertyAsSet.size == 0)
+                thisAny[internalPropertyName] = undefined;
+        }
+    }
+
+    /**
+     * Add a set of PROPERTYs into to the collection property PROPERTYs
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param newValues the new values to add into the property
+     */
+    addManySetProperty<T>(internalPropertyName: string, newValues: EnhancedSet<T>) {
+        if (newValues.size > 0) {
+            const thisAny = this as any;
+            if (thisAny[internalPropertyName] == null)
+                thisAny[internalPropertyName] = new EnhancedSet<T>();
+            const propertyAsSet = thisAny[internalPropertyName] as EnhancedSet<T>;
+            for (const newValue of newValues.values()) {
+                propertyAsSet.add(newValue);
+            }
+        }
+    }
+
+    /**
+     * Remove a set of PROPERTY from the collection property PROPERTY
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param oldValues the values to remove from the property
+     */
+    removeManySetProperty<T>(internalPropertyName: string, oldValues: EnhancedSet<T>) {
+        const thisAny = this as any;
+        const propertyAsSet = thisAny[internalPropertyName] as EnhancedSet<T>;
+        if (oldValues.size > 0 && propertyAsSet != null) {
+            for (const oldValue of oldValues.values()) {
+                propertyAsSet.delete(oldValue);
+            }
+            if (propertyAsSet.size === 0)
+                thisAny[internalPropertyName] = undefined;
+        }
+    }
+
+    /**
+     * Clear all PROPERTY from the collection property PROPERTY
+     * @param internalPropertyName the name of the field that actually holds the property value
+     */
+    clearSetProperty(internalPropertyName: string) {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] != null) {
+            thisAny[internalPropertyName] = undefined;
+        }
+    }
+
+    /**
+     * Gets the value of the PROPERTY property.
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @returns The value of the PROPERTY property
+     */
+    getArrayProperty<T>(internalPropertyName: string): Array<T> {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] == null)
+            thisAny[internalPropertyName] = new Array<T>();
+        return thisAny[internalPropertyName];
+    }
+
+    /**
+     * Add one item to the collection property PROPERTY
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param newValue the new value to add into the property
+     */
+    addOneArrayProperty<T>(internalPropertyName: string, newValue: T) {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] == null)
+            thisAny[internalPropertyName] = new Array<T>();
+        const propertyAsArray = thisAny[internalPropertyName] as Array<T>;
+        if (propertyAsArray != null && !propertyAsArray.includes(newValue)) {
+            propertyAsArray.push(newValue);
+        }
+    }
+
+    /**
+     * Remove one item from the collection property PROPERTY
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param oldValue the value to remove from the property
+     */
+    removeOneArrayProperty<T>(internalPropertyName: string, oldValue: T) {
+        const thisAny = this as any;
+        const propertyAsArray = thisAny[internalPropertyName] as Array<T>;
+        if (propertyAsArray != null && propertyAsArray.includes(oldValue)) {
+            let index = propertyAsArray.indexOf(oldValue, 0);
+            if (index > -1) {
+                propertyAsArray.splice(index, 1);
+            }
+            if (propertyAsArray.length == 0)
+                thisAny[internalPropertyName] = undefined;
+        }
+    }
+
+    /**
+     * Add a set of PROPERTYs into to the collection property PROPERTYs
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param newValues the new values to add into the property
+     */
+    addManyArrayProperty<T>(internalPropertyName: string, newValues: Array<T>) {
+        if (newValues.length > 0) {
+            const thisAny = this as any;
+            if (thisAny[internalPropertyName] == null)
+                thisAny[internalPropertyName] = new Array<T>();
+            const propertyAsArray = thisAny[internalPropertyName] as Array<T>;
+            for (const newValue of newValues.values()) {
+                propertyAsArray.push(newValue);
+            }
+        }
+    }
+
+    /**
+     * Remove a set of PROPERTY from the collection property PROPERTY
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param oldValues the values to remove from the property
+     */
+    removeManyArrayProperty<T>(internalPropertyName: string, oldValues: Array<T>) {
+        const thisAny = this as any;
+        if (oldValues.length > 0 && thisAny[internalPropertyName] != null) {
+            const propertyAsArray = thisAny[internalPropertyName] as Array<T>;
+            for (const oldValue of oldValues.values()) {
+                let index = propertyAsArray.indexOf(oldValue, 0);
+                if (index > -1) {
+                    propertyAsArray.splice(index, 1);
+                }
+            }
+            if (propertyAsArray.length === 0)
+                thisAny[internalPropertyName] = undefined;
+        }
+    }
+
+    /**
+     * Clear all PROPERTY from the collection property PROPERTY
+     * @param internalPropertyName the name of the field that actually holds the property value
+     */
+    clearArrayProperty(internalPropertyName: string) {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] != null) {
+            thisAny[internalPropertyName] = undefined;
+        }
+    }
+
+    /**
+     * Gets the value of the PROPERTY property.
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @returns The value of the PROPERTY property
+     */
+    getMapProperty<K, V>(internalPropertyName: string): EnhancedMap<K, V> {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] == null)
+            thisAny[internalPropertyName] = new Map<K, V>();
+        return thisAny[internalPropertyName];
+    }
+
+    /**
+     * get one item from the collection property relPropName
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param newValue the key of the value to get from the property
+     * @returns The value of entry with the specified key in the PROPERTY property
+     */
+    getOneMapProperty<K, V>(internalPropertyName: string, key: K): V | undefined {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] == null)
+            return undefined;
+        const propertyAsMap = thisAny[internalPropertyName] as Map<K, V>;
+        return propertyAsMap.get(key);
+    }
+
+    /**
+     * Set one item into the collection property relPropName
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param newKey the key of the value to add to the property
+     * @param value the value to add to the property
+     */
+    setOneMapProperty<K, V>(internalPropertyName: string, newKey: K, value: V): void {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] == null)
+            thisAny[internalPropertyName] = new Map<K, V>();
+        const propertyAsMap = thisAny[internalPropertyName] as Map<K, V>;
+        propertyAsMap.set(newKey, value);
+    }
+
+    /**
+     * remove an item from the collection property relPropName
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param key the key to remove from the property
+     */
+    removeOneMapProperty<K, V>(internalPropertyName: string, key: K): void {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] != null) {
+            const propertyAsMap = thisAny[internalPropertyName] as Map<K, V>;
+            if (key)
+                propertyAsMap.delete(key);
+        }
+    }
+
+    /**
+     * Set a collection of items into the collection property relPropName
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param values the key, value pairs to add to the property
+     */
+    setManyMapProperty<K, V>(internalPropertyName: string, values: { key: K, value: V }[]): void {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] == null)
+            thisAny[internalPropertyName] = new Map<K, V>();
+        const propertyAsMap = thisAny[internalPropertyName] as Map<K, V>;
+        if (values) {
+            values.forEach(element => {
+                propertyAsMap.set(element.key, element.value);
+            });
+        }
+    }
+
+    /**
+     * remove a collection of items from the collection property relPropName
+     * @param internalPropertyName the name of the field that actually holds the property value
+     * @param keys the keys to remove from the property
+     */
+    removeManyMapProperty<K, V>(internalPropertyName: string, keys: K[]): void {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] != null) {
+            const propertyAsMap = thisAny[internalPropertyName] as Map<K, V>;
+            if (keys) {
+                keys.forEach(element => {
+                    propertyAsMap.delete(element);
+                });
+            }
+        }
+    }
+
+    /**
+     * Clear all relPropName from the collection property relPropName
+     * @param internalPropertyName the name of the field that actually holds the property value
+     */
+    clearMapProperty(internalPropertyName: string): void {
+        const thisAny = this as any;
+        if (thisAny[internalPropertyName] != null) {
+            thisAny[internalPropertyName] = undefined;
+        }
+    }
+}

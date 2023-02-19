@@ -1,3 +1,4 @@
+import { ProgrammingLanguage } from '../../system/ProgrammingLanguage'
 import { System } from '../../system/System'
 import { SystemComponentType } from '../../system/SystemComponentType'
 import { ValueType } from '../../system/ValueType'
@@ -17,11 +18,7 @@ export class Column extends RelationalComponent {
 
 	columnDefault: any
 
-	isNullable: boolean
-
-	isIdentity: boolean
-
-	dataType: string
+	autoIncrement: boolean
 
 	valueType: ValueType
 
@@ -29,32 +26,24 @@ export class Column extends RelationalComponent {
 
 	characterMaximumLength: number
 
-	ansiTypeDeclaration: string
+	precision: number
+
+	scale: number
 
 	foreignKey?: ForeignKey
 
 	constraint?: Constraint
 
 	// eslint-disable-next-line max-params
-	constructor(
-		schemaName: string,
-		tableName: string,
-		name: string,
-		description: string,
-		dataType: string,
-		valueType: ValueType,
-		characterMaximumLength: number,
-		ansiTypeDeclaration: string
-	) {
+	constructor(schemaName: string, tableName: string, name: string, description: string, valueType: ValueType, characterMaximumLength: number) {
 		super('Column', System.fullConstantCase(schemaName, tableName), schemaName, name, SystemComponentType.storage, description)
-		this.dataType = dataType
 		this._tableName = tableName
 		this.valueType = valueType
 		this.characterMaximumLength = characterMaximumLength
-		this.ansiTypeDeclaration = ansiTypeDeclaration
 		this.ordinalPosition = 0
-		this.isNullable = true
-		this.isIdentity = false
+		this.autoIncrement = false
+		this.precision = 0
+		this.scale = 0
 	}
 
 	static computeFullName(schemaName: string, tableName: string): string {
@@ -87,6 +76,28 @@ export class Column extends RelationalComponent {
 			this.tableName = value.name
 			this.schemaName = value.schemaName
 		}
+	}
+
+	get ansiTypeDeclaration(): string {
+		const dataTypeName = this.valueType.toNameInLanguage(ProgrammingLanguage.sql)
+		let sqlText
+
+		switch (this.valueType) {
+			case ValueType.string:
+				sqlText = `${dataTypeName}(${this.characterMaximumLength})`
+			case ValueType.decimal:
+			case ValueType.number:
+				sqlText = `${dataTypeName}(${this.precision}, ${this.scale})`
+			case ValueType.float:
+				sqlText = `${dataTypeName}(${this.precision})`
+			default:
+				sqlText = `${dataTypeName}`
+		}
+
+		if (this.columnDefault) sqlText += ` DEFAULT ${this.columnDefault}`
+		if (this.autoIncrement) sqlText += ` AUTO_INCREMENT`
+
+		return sqlText
 	}
 
 	get discriminator(): boolean {

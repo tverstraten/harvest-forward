@@ -1,0 +1,21 @@
+using Model;
+
+/// <summary>
+/// Informational model in csharp for {{this.name}}
+/// IMPORTANT, DO NOT EDIT: this is a generated file and is over written by subsequent runs of the generator. Any changes will be lost
+/// </summary>
+namespace DalEf
+{
+    {{#findComponents this "{ 'componentType': 'dataAccess' }"}}
+    /// <summary>
+    /// Generated base dal for the class {{this.operatesOnBehalfOf.name}}, do not edit. If you need to customize edit the derivation.
+    /// </summary>
+    public partial class {{PascalCase this.name}} : AbstractDal<{{PascalCase this.operatesOnBehalfOf.name}}>
+    {  
+        /// <summary>
+        /// set the type of entity to manage via a constructor
+        /// </summary>
+    }
+
+    {{/findComponents}}
+}

@@ -1,0 +1,26 @@
+///
+/// Helper class for testing data access to the model in c# (entity framework)
+/// IMPORTANT, DO NOT EDIT: this is a generated file and is over written by subsequent runs of the generator. Any changes will be lost
+///
+namespace Dal 
+{
+    class TestHelper 
+    {
+        /// <summary>
+        /// generate a string of random length
+        /// </summary>
+        /// <param name="length">the number of characters to include in the string</param>
+        /// <returns>a string of the given length with random characters</returns> 
+        static RandomString(int length): string
+        {
+            let outString: string = '';
+            let outLength = length == null || length == -1 ? 50 : length;
+            let charChoices: string = '0123456789Aabcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>,.:;{}[]\|~!@#$%^&*()_+=_';
+            for (let i = 0; i < outLength; i++) 
+            {
+                outString += charChoices.charAt(Math.floor(Math.random() * charChoices.length));
+            }
+            return outString;
+        }
+    }
+}

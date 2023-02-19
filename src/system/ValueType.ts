@@ -1,5 +1,4 @@
-import { Logging } from '@tverstraten/log-annotations'
-import { LogMethod } from '@tverstraten/log-annotations'
+import { Logging, LogMethod } from '@tverstraten/log-annotations'
 import { ProgrammingLanguage } from './ProgrammingLanguage'
 import { SystemComponentType } from './SystemComponentType'
 import { SystemDescendantComponent } from './SystemDescendantComponent'
@@ -12,6 +11,10 @@ export class ValueType extends SystemDescendantComponent {
 
 	collectedType?: ValueType
 
+	isOptional = false
+
+	private _asOptional?: ValueType
+
 	isCollection = false
 
 	private _asCollection?: ValueType
@@ -20,9 +23,12 @@ export class ValueType extends SystemDescendantComponent {
 
 	static readonly typeResolverMap: Record<string, ValueTypeResolver> = {}
 
-	constructor(objectType: string, nameSpace: string, name: string, desc: string, primitive = true) {
+	// eslint-disable-next-line max-params
+	constructor(objectType: string, nameSpace: string, name: string, desc: string, primitive = true, isOptional = false, isCollection = false) {
 		super(objectType, nameSpace, name, SystemComponentType.informationModel, desc)
 		this.primitive = primitive
+		this.isOptional = isOptional
+		this.isCollection = isCollection
 	}
 
 	static object = new ValueType('ValueType', 'INFORMATION_MODEL', 'object', '', true)
@@ -49,6 +55,20 @@ export class ValueType extends SystemDescendantComponent {
 
 	static void = new ValueType('ValueType', 'INFORMATION_MODEL', 'void', '', true)
 
+	get asOptional(): ValueType {
+		if (this._asOptional == null) {
+			this._asOptional = new ValueType(
+				'ValueType',
+				this.constantCaseNameSpace,
+				`${this.name}?`,
+				`An optional version of the object described as: ${this.description}`,
+				this.primitive
+			)
+			this._asOptional.isOptional = true
+			return this._asOptional
+		} else return this._asOptional
+	}
+
 	get asCollection(): ValueType {
 		if (this._asCollection == null) {
 			this._asCollection = new ValueType(
@@ -66,16 +86,27 @@ export class ValueType extends SystemDescendantComponent {
 
 	static types = [
 		ValueType.object,
+		ValueType.object.asOptional,
 		ValueType.string,
+		ValueType.string.asOptional,
 		ValueType.int,
+		ValueType.int.asOptional,
 		ValueType.number,
+		ValueType.number.asOptional,
 		ValueType.float,
+		ValueType.float.asOptional,
 		ValueType.boolean,
+		ValueType.boolean.asOptional,
 		ValueType.dateTime,
+		ValueType.dateTime.asOptional,
 		ValueType.date,
+		ValueType.date.asOptional,
 		ValueType.time,
+		ValueType.time.asOptional,
 		ValueType.interval,
+		ValueType.interval.asOptional,
 		ValueType.decimal,
+		ValueType.decimal.asOptional,
 		ValueType.void,
 	]
 
@@ -92,63 +123,30 @@ export class ValueType extends SystemDescendantComponent {
 		return ValueType.types
 	}
 
-	static hasNameInType(language: ProgrammingLanguage, name: string): boolean {
+	// remove
+	static hasNameInLanguage(language: ProgrammingLanguage, name: string): boolean {
 		const resolver = ValueType.typeResolverMap[language.name]
-		return resolver ? resolver.hasName(name) : false
+		return resolver.toType(name) ? true : false
 	}
 
+	// remove
 	static hasName(name: string): boolean {
-		if (name == null) throw RangeError(`a value must be provided for name`)
-		for (let index = 0; index < ValueType.types.length; index++) {
-			const type = ValueType.types[index]
-			if (type.name === name) return true
-		}
-		return false
+		const match = this.fromName(name)
+		return match ? true : false
 	}
 
-	static fromNameInType(language: ProgrammingLanguage, name: string): ValueType {
+	toNameInLanguage(language: ProgrammingLanguage): string | undefined {
 		const resolver = ValueType.typeResolverMap[language.name]
-		if (resolver.doesSupport(language)) {
-			const resolvedType = resolver.toType(name)
-			if (resolvedType) return resolvedType
-
-			for (let index = 0; index < ValueType.types.length; index++) {
-				const type = ValueType.types[index]
-				const optionalName = resolver.fromType(type, false)
-				if (optionalName === name) return type
-				const mandatoryName = resolver.fromType(type, true)
-				if (mandatoryName === name) return type
-			}
-		}
-		throw ReferenceError(`no ValueType for ${name}`)
+		return resolver.fromType(this.name)
 	}
 
-	static fromName(name: string): ValueType {
-		for (let index = 0; index < ValueType.types.length; index++) {
-			const type = ValueType.types[index]
-			if (type.name === name) return type
-		}
-		throw ReferenceError(`no ValueType for ${name}`)
-	}
-
-	inLanguage(language: ProgrammingLanguage, nullable = false, length = 0): string {
-		if (this.isCollection) {
-			const componentName = this.collectedType?.inLanguage(language, nullable, length)
-			return `${componentName}[]`
-		}
-
+	static fromNameInLanguage(language: ProgrammingLanguage, name: string): ValueType | undefined {
 		const resolver = ValueType.typeResolverMap[language.name]
-		if (!resolver) throw new RangeError(`Cannot map to language ${language}`)
-		const definitionSpec = resolver.doesMap(this) ? resolver.fromType(this, nullable) : this.name
+		return resolver.toType(name)
+	}
 
-		if (definitionSpec != null) {
-			let finalForm
-			if (length == null) finalForm = definitionSpec.replace(/\%l/, '')
-			else finalForm = definitionSpec.replace(/\%l/, length.toString())
-			return finalForm
-		}
-
-		return this.name
+	static fromName(name: string): ValueType | undefined {
+		return ValueType.types.find((type) => (type.name = name))
 	}
 
 	get isObject(): boolean {

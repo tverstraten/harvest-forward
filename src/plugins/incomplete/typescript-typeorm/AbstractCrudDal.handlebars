@@ -1,0 +1,127 @@
+/**
+ * NOTE: this is a generated file, do not edit it will be overwritten 
+ */
+import { AbstractDal } from './AbstractDal.generated'
+import CircularReplacer from '../util/CircularReplacer'
+import { Traceable } from '@hfadmin/app-model'
+import Pino from "pino"
+import { validate } from 'class-validator'
+import { DeepPartial, Repository } from 'typeorm'
+
+/**
+ * abstract point of inheritance for dal classes
+ * @param T the type of object the dal will be managed
+ */
+export abstract class AbstractCrudDal<T extends Traceable> extends AbstractDal {
+    /**
+     * the local logger
+     */
+    protected logger = Pino({ name: this.getLoggerName(), level: process.env.LOG_LEVEL || 'info' })
+
+    /**
+     * get the name (human-readable identifier) for the logger
+     * @returns the text to identify the logger
+     */
+    getLoggerName(): string {
+        return 'AbstractCrudDal'
+    }
+
+    /**
+     * create a new instance of the object
+     * @param userId the id of the user currently acting on data for the life of this dal
+     */
+    constructor(userId: number) {
+        super(userId)
+    }
+
+    /**
+     * get a typeorm repository
+     * @return the repository
+     */
+    abstract getRepository(): Promise<Repository<T>>
+
+    /**
+     * create a new instance of class based on the information provided
+     * @param newItem - the item to create
+     * @returns the updated item
+     */
+    async create(newItem: T): Promise<T> {
+        try {
+            this.logger.debug(`create(${JSON.stringify(newItem, CircularReplacer())})`)
+            let currentUser = await this.getCurrentUser()
+            newItem.createdBy = currentUser
+            newItem.createdOn = new Date()
+            newItem.lastUpdatedBy = currentUser
+            newItem.lastUpdatedOn = new Date()
+
+            let failures = await validate(newItem)
+            if (failures && failures.length > 0)
+                throw new RangeError(JSON.stringify(failures))
+
+            let repo = await this.getRepository()
+            let data = await repo.save(newItem as DeepPartial<T>)
+            return data as unknown as T
+        }
+        catch (problem) {
+            this.logger.error(`create failed ${JSON.stringify(newItem, CircularReplacer())} reason ${problem}`)
+            throw problem
+        }
+    };
+
+    /**
+     * find the single instance that has the given id
+     * @param id - the identifier of the instance to retrieve
+     * @returns the instance with the given id or null if it doesnt exist
+     */
+    async findOneById(id: number): Promise<T> {
+        let repo = await this.getRepository()
+        let theOne = await repo.findOne(id)
+        if (theOne == null)
+            throw Error(`Object with the id of ${id} does not exist`)
+        return theOne
+    };
+
+    /**
+     * update the values of a single item
+     * @param itemUpdate - the item to update
+     * @returns the updated item
+     */
+    async update(itemUpdate: T): Promise<T> {
+        try {
+            this.logger.debug(`update(${JSON.stringify(itemUpdate, CircularReplacer())})`)
+            let currentUser = await this.getCurrentUser()
+            itemUpdate.lastUpdatedBy = currentUser
+            itemUpdate.lastUpdatedOn = new Date()
+
+            let failures = await validate(itemUpdate)
+            if (failures && failures.length > 0)
+                throw new Error(JSON.stringify(failures))
+
+            let repo = await this.getRepository()
+            let data = await repo.save(itemUpdate as DeepPartial<T>)
+            return data as unknown as T
+        }
+        catch (problem) {
+            this.logger.error(`update failed ${JSON.stringify(itemUpdate, CircularReplacer())}, reason ${problem}`)
+            throw problem
+        }
+    };
+
+    /**
+     * remove an item from the store
+     * @param id - the id of the item to remove
+     * @returns true if the item was removed
+     */
+    async remove(id: number): Promise<boolean> {
+        try {
+            this.logger.debug(`remove(${id})`)
+            let repo = await this.getRepository()
+            await repo.delete({ id: id })
+            return true
+        }
+        catch (problem) {
+            this.logger.error(`remove failed ${id} reson ${problem}`)
+            throw problem
+        }
+    }
+}

@@ -81,10 +81,10 @@ describe('install', () => {
 			return arbitraryType === type
 		}
 
-		fromType(originalType: any, optional: boolean): string {
+		fromType(originalType: any): string {
 			if (originalType === ValueType.string) return undefined as any
-			if (originalType === ValueType.interval && optional) return 'special interval'
-			if (originalType === ValueType.time && !optional) return 'special time'
+			if (originalType === ValueType.interval.isOptional) return 'special interval'
+			if (originalType === ValueType.time.isOptional) return 'special time'
 			return originalType === arbitraryType ? arbitraryType.name : 'nope'
 		}
 
@@ -106,48 +106,48 @@ describe('install', () => {
 		ValueType.install(ProgrammingLanguage.sql, resolver)
 	})
 
-	it('hasNameInType', async () => {
-		expect(ValueType.hasNameInType(ProgrammingLanguage.sql, 'noSuchName')).toBe(false)
-		expect(ValueType.hasNameInType(ProgrammingLanguage.sql, arbitraryTypeName)).toBe(true)
-		expect(ValueType.hasNameInType(ProgrammingLanguage.tSql, 'noSuchName')).toBe(false)
-		expect(ValueType.hasNameInType(ProgrammingLanguage.tSql, arbitraryTypeName)).toBe(false)
+	it('hasNameInLanguage', async () => {
+		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.sql, 'noSuchName')).toBe(false)
+		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.sql, arbitraryTypeName)).toBe(true)
+		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.tSql, 'noSuchName')).toBe(false)
+		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.tSql, arbitraryTypeName)).toBe(false)
 	})
 
-	it('fromNameInType', async () => {
-		let result = ValueType.fromNameInType(ProgrammingLanguage.sql, 'special interval')
+	it('fromNameInLanguage', async () => {
+		let result = ValueType.fromNameInLanguage(ProgrammingLanguage.sql, 'special interval')
 		expect(result).toBe(ValueType.string)
 
-		result = ValueType.fromNameInType(ProgrammingLanguage.sql, 'special time')
+		result = ValueType.fromNameInLanguage(ProgrammingLanguage.sql, 'special time')
 		expect(result).toBe(ValueType.string)
 
-		result = ValueType.fromNameInType(ProgrammingLanguage.sql, 'noSuchName')
+		result = ValueType.fromNameInLanguage(ProgrammingLanguage.sql, 'noSuchName')
 		expect(result).toBe(ValueType.string)
 
 		const testFunction2 = (): void => {
-			ValueType.fromNameInType(ProgrammingLanguage.tSql, 'noSuchName')
+			ValueType.fromNameInLanguage(ProgrammingLanguage.tSql, 'noSuchName')
 		}
 		expect(testFunction2).toThrow()
 
 		const testFunction3 = (): void => {
-			ValueType.fromNameInType(ProgrammingLanguage.tSql, arbitraryTypeName)
+			ValueType.fromNameInLanguage(ProgrammingLanguage.tSql, arbitraryTypeName)
 		}
 		expect(testFunction3).toThrow()
 	})
 
 	it('inLanguage', async () => {
-		expect(arbitraryType.inLanguage(ProgrammingLanguage.sql)).toBe(arbitraryTypeName)
-		expect(arbitraryType.asCollection.inLanguage(ProgrammingLanguage.sql)).toBe(`${arbitraryTypeName}[]`)
-		expect(ValueType.string.inLanguage(ProgrammingLanguage.sql)).toBe(ValueType.string.name)
+		expect(arbitraryType.toNameInLanguage(ProgrammingLanguage.sql)).toBe(arbitraryTypeName)
+		expect(arbitraryType.asCollection.toNameInLanguage(ProgrammingLanguage.sql)).toBe(`${arbitraryTypeName}[]`)
+		expect(ValueType.string.toNameInLanguage(ProgrammingLanguage.sql)).toBe(ValueType.string.name)
 
 		const testFunction1 = (): void => {
 			const typeNotInLanguage = new ValueType('ValueType', 'INFORMATION_MODEL', 'someObject', '', false)
-			typeNotInLanguage.inLanguage(ProgrammingLanguage.tSql)
+			typeNotInLanguage.toNameInLanguage(ProgrammingLanguage.tSql)
 		}
 		expect(testFunction1).toThrow()
 
 		// this is not mapped so it goes through a different branch of code
-		expect(ValueType.boolean.inLanguage(ProgrammingLanguage.sql)).toBe(ValueType.boolean.name)
-		expect(arbitraryType.inLanguage(ProgrammingLanguage.sql, true, null as any)).toBe(arbitraryTypeName)
+		expect(ValueType.boolean.toNameInLanguage(ProgrammingLanguage.sql)).toBe(ValueType.boolean.name)
+		expect(arbitraryType.toNameInLanguage(ProgrammingLanguage.sql)).toBe(arbitraryTypeName)
 	})
 })
 

@@ -1,0 +1,13 @@
+# Informational model in visual basic (no framework) for {{name}}
+# {{description}}
+
+# {{this.name}}
+# {{this.description}}
+Public Class {{this.name}}_generated
+{{#each this.properties}}
+    # {{this.name}} property
+	# {{this.description}}
+    Public Property {{this.name}} As {{VisualBasic this.type}}
+{{/each}}
+
+End Class

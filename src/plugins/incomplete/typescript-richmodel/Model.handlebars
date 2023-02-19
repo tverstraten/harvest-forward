@@ -1,0 +1,23 @@
+{{#if this.inheritsFrom}}import { {{this.inheritsFrom.name}} } from './{{this.inheritsFrom.name}}.entity.generated';
+{{/if}}{{#each this.classReferences}}import { {{this.name}} } from './{{this.name}}.entity.generated';
+{{/each}}{{#each this.enumerationReferences}}import { {{this.name}} } from 'fundscraper-model-enums';
+{{/each}}
+
+/**
+ * Informational model in typescript for {{name}}
+ * IMPORTANT, DO NOT EDIT: this is a generated file and is over written by subsequent runs of the generator. Any changes will be lost
+ */
+
+/**
+ * {{this.name}}
+ * {{this.description}}
+ */
+export interface {{this.name}}{{#if this.inheritsFrom}} extends {{this.inheritsFrom.name}}{{/if}} {
+{{#each this.properties}}
+	/**
+	 * {{this.description}}
+	 */	
+	{{this.name}}: {{TypeScript this.type}};
+
+{{/each}}
+}
