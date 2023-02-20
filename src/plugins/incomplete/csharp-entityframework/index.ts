@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import fs from 'fs'
 
 export const templates = {

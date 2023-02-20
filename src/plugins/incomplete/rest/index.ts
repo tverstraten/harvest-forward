@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Builder } from '../../../runtime/Builder'
 import { OpenApiJsonToApiHarvester } from './builders/OpenApiJsonToApiHarvester'
 

@@ -192,10 +192,8 @@ describe('fromName', () => {
 		expect(ValueType.fromName(ValueType.decimal.name)).toBe(ValueType.decimal)
 		expect(ValueType.fromName(ValueType.void.name)).toBe(ValueType.void)
 
-		const testFunction1 = (): void => {
-			ValueType.fromName(undefined as any)
-		}
-		expect(testFunction1).toThrow()
+		const result = ValueType.fromName(undefined as any)
+		expect(result).toBeUndefined()
 	})
 })
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-lines-per-function */
 import ts, { ClassDeclaration, SyntaxKind } from 'typescript'
 import { Artifact } from '../../../system/Artifact'

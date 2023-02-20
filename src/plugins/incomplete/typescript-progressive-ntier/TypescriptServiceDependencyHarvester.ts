@@ -29,6 +29,7 @@ export class TypescriptServiceDependencyHarvester extends AbstractTypeScriptAstH
 		const importedClasses: Class[] = []
 		const results = [] as Artifact[]
 		try {
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			ts.forEachChild(ast, function visit(node: ts.Node) {
 				switch (node.kind) {
 					case SyntaxKind.ImportDeclaration:

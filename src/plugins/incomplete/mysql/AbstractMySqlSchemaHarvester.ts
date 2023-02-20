@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Level } from '@tverstraten/log-annotations'
 import { Artifact } from '../../../system/Artifact'
 import { System } from '../../../system/System'
