@@ -13,13 +13,13 @@ If you have one or more artifacts that systematically define what other artifact
 
 Harvest Forward is a framework built to assist with artifact(code) generation, more specifically allowing harvesters, transformers and generators to be decomposed into reusable pieces and then recombined by configuration as needed. It maintains an internal model that is created, altered and consumed to produce output via the [configuration](#compositionconfiguration) of [plugins](#plugins).
 
-The harvestors, transformers and generators can be arbitrarily ordered so the output of one can be used as the input for another. For example, if we have a model of a REST API layer that produces an open api json file we can then use that json file to generate client side stubs. Alternatively, if we want all service (business logic) layer methods to be exposed via a REST API we can simply parse those classes to read the appropriate methods and extract their signatures and documentation so that we have a model sufficient to generate the api code.
+The harvesters, transformers and generators can be arbitrarily ordered so the output of one can be used as the input for another. For example, if we have a model of a REST API layer that produces an open api json file we can then use that json file to generate client side stubs. Alternatively, if we want all service (business logic) layer methods to be exposed via a REST API we can simply parse those classes to read the appropriate methods and extract their signatures and documentation so that we have a model sufficient to generate the api code.
 
 Some simple examples include:
 
-1. Use the typescript harvestors to read model classes into the Harvest Forward model then generate mongoose schemas for working with Mongo
-1. Use Java harvestors to read in your spring REST mappings to generate a client api library
-1. Use MySql harvestors to read in your model and emit a laravel model with rules to enforce rules such as domains and column length
+1. Use the typescript harvesters to read model classes into the Harvest Forward model then generate mongoose schemas for working with Mongo
+1. Use Java harvesters to read in your spring REST mappings to generate a client api library
+1. Use MySql harvesters to read in your model and emit a laravel model with rules to enforce rules such as domains and column length
 1. As shown in our [sample application](https://github.com/tverstraten/hf-sample-app-ts-mysql-express), a typescript model is used to produce
 
     1. A Mysql schema

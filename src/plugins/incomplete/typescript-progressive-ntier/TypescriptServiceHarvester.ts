@@ -1,5 +1,4 @@
 /* eslint-disable max-lines-per-function */
-
 import ts, { ClassDeclaration, SyntaxKind } from 'typescript'
 import { Artifact } from '../../../system/Artifact'
 import { ComponentOrigin } from '../../../system/ComponentOrigin'
@@ -12,14 +11,14 @@ import { Class } from '../../information-architecture'
 import { AbstractTypeScriptAstHarvester } from '../../typescript/AbstractTypeScriptAstHarvester'
 
 /**
- * a harvestor that takes typescript code for service classes and harvest service dependencies
+ * A harvester that takes typescript code for service classes and harvest service dependencies
  */
-export class TypescriptServiceHarvestor extends AbstractTypeScriptAstHarvester {
+export class TypescriptServiceHarvester extends AbstractTypeScriptAstHarvester {
 	/**
-	 * create a new instance of the harvestor
+	 * create a new instance of the harvester
 	 */
 	constructor(configurationValues?: { [key: string]: any }) {
-		super('TypescriptServiceHarvestor', 'A harvestor that reads services from typescript files', {}, configurationValues)
+		super('A harvester that reads services from typescript files', {}, configurationValues)
 	}
 
 	/**
@@ -50,14 +49,14 @@ export class TypescriptServiceHarvestor extends AbstractTypeScriptAstHarvester {
 							let serviceClass = system.descendants[fullName] as Class
 							if (serviceClass == null) {
 								const memberJsDoc = (node as any).jsDoc as any[]
-								let memberDocumentatoinText = ''
+								let memberDocumentationText = ''
 								if (memberJsDoc != null) {
 									memberJsDoc.forEach((jsDocItem) => {
-										memberDocumentatoinText += jsDocItem.comment as string
+										memberDocumentationText += jsDocItem.comment as string
 									})
 								}
 
-								serviceClass = new Class('service', name, memberDocumentatoinText, SystemComponentType.service)
+								serviceClass = new Class('service', name, memberDocumentationText, SystemComponentType.service)
 								serviceClass.permanence = Permanence.constant
 								serviceClass.informational = true
 								serviceClass.functional = false

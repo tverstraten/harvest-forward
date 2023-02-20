@@ -20,7 +20,7 @@ class TempTypeResolver implements ValueTypeResolver {
 		return true
 	}
 
-	fromType(__originalType: any, __optional: boolean): string {
+	fromType(__originalType: any): string {
 		return `bogus1-${this.resolvedLanguage.name}`
 	}
 

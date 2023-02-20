@@ -3,6 +3,7 @@ import { Artifact } from '../../../system/Artifact'
 import { System } from '../../../system/System'
 import { ValueType } from '../../../system/ValueType'
 import { AbstractSqlSchemaHarvester, RelationalDatabase } from '../../rdbms-basic'
+import mariadb from 'mariadb'
 
 export abstract class AbstractMySqlSchemaHarvester extends AbstractSqlSchemaHarvester {
 	private pool?: mariadb.Pool

@@ -1,5 +1,5 @@
-import { System } from 'typescript'
 import { Artifact } from '../../../system/Artifact'
+import { System } from '../../../system/System'
 import { SystemComponentArtifact } from '../../../system/SystemComponentArtifact'
 import { RelationalDatabase, PrimaryKey } from '../../rdbms-basic'
 import { AbstractMySqlSchemaHarvester } from './AbstractMySqlSchemaHarvester'

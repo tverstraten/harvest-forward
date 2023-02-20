@@ -1,5 +1,4 @@
 import { Artifact } from '../../../system/Artifact'
-import { ProgrammingLanguage } from '../../../system/ProgrammingLanguage'
 import { System } from '../../../system/System'
 import { SystemComponentArtifact } from '../../../system/SystemComponentArtifact'
 import { EnumeratedValue } from '../../information-architecture'
@@ -18,7 +17,7 @@ export class MySqlColumnHarvester extends AbstractMySqlSchemaHarvester {
 		const results = [] as Artifact[]
 
 		const dataType = (row['DATA_TYPE'] as string).toUpperCase()
-		const valueType = this.columnTypeToValueTypeMap[dataType]
+		let valueType = this.columnTypeToValueTypeMap[dataType]
 		let domain: Domain | undefined
 		if (dataType.includes('ENUM')) {
 			const rawColumnType = row['COLUMN_TYPE'] as string
@@ -33,20 +32,13 @@ export class MySqlColumnHarvester extends AbstractMySqlSchemaHarvester {
 			results.push(new SystemComponentArtifact(domain))
 		}
 		const nullable = row['IS_NULLABLE'] == 'YES'
-		const newRow = {
-			schemaName: row['TABLE_SCHEMA'],
-			tableName: row['TABLE_NAME'],
-			name: row['COLUMN_NAME'],
-			description: row['COLUMN_COMMENT'],
-			ordinalPosition: row['ORDINAL_POSITION'],
-			columnDefault: row['COLUMN_DEFAULT'],
-			isNullable: nullable,
-			isIdentity: row['EXTRA'] == 'auto_increment',
-			valueType: valueType,
-			inDomain: domain,
-			characterMaximumLength: row['CHARACTER_MAXIMUM_LENGTH'],
-			ansiTypeDeclaration: valueType.inLanguage(ProgrammingLanguage.sql, nullable, row['CHARACTER_MAXIMUM_LENGTH']),
-		} as Column
+		if (nullable) valueType = valueType.asOptional
+
+		const newRow = new Column(row['TABLE_SCHEMA'], row['TABLE_NAME'], row['COLUMN_NAME'], row['COLUMN_COMMENT'], valueType, row['CHARACTER_MAXIMUM_LENGTH'])
+		newRow.ordinalPosition = row['ORDINAL_POSITION']
+		newRow.columnDefault = row['COLUMN_DEFAULT']
+		newRow.autoIncrement = row['EXTRA'] == 'auto_increment'
+		newRow.inDomain = domain
 
 		if (this.validColumn(newRow)) {
 			system.addChild(newRow)

@@ -67,7 +67,7 @@ export class TypeScriptClassMethodToModelHarvester extends AbstractTypeScriptAst
 							try {
 								returnType = system.descendants[fullName] as ValueType
 								if (returnType == null) returnType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, typeName)
-								if (isArray) returnType = returnType.asCollection
+								if (isArray && returnType) returnType = returnType.asCollection
 							} catch (problem) {
 								_thisThis.logger.error(`harvestFromAst(failed) ${problem}`)
 								returnType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, 'string')
@@ -97,10 +97,12 @@ export class TypeScriptClassMethodToModelHarvester extends AbstractTypeScriptAst
 									parameterType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, 'string')
 								}
 
-								const parameter = new Parameter(newMethod.fullConstantCaseName, parameterName, parameterDescription, parameterType, 0)
-								parameter.optional = astParameter.questionToken ? true : false
+								if (parameterType) {
+									const parameter = new Parameter(newMethod.fullConstantCaseName, parameterName, parameterDescription, parameterType, 0)
+									parameter.optional = astParameter.questionToken ? true : false
 
-								newMethod.addChild(parameter)
+									newMethod.addChild(parameter)
+								}
 							})
 
 							results.push(new SystemComponentArtifact(newMethod))

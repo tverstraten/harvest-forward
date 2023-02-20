@@ -1,34 +1,36 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import fs from 'fs'
 import { ProgrammingLanguage } from '../../../system/ProgrammingLanguage'
 import { SimpleMappedValueTypeResolver } from '../../../system/SimpleMappedValueTypeResolver'
 import { ValueType } from '../../../system/ValueType'
 
-const CSharpMandatoryValueTypes = {} as { [key: string]: string }
-CSharpMandatoryValueTypes[ValueType.object.name] = 'Object'
-CSharpMandatoryValueTypes[ValueType.string.name] = 'string'
-CSharpMandatoryValueTypes[ValueType.int.name] = 'long'
-CSharpMandatoryValueTypes[ValueType.float.name] = 'double'
-CSharpMandatoryValueTypes[ValueType.boolean.name] = 'bool'
-CSharpMandatoryValueTypes[ValueType.dateTime.name] = 'DateTime'
-CSharpMandatoryValueTypes[ValueType.date.name] = 'DateTime'
-CSharpMandatoryValueTypes[ValueType.time.name] = 'DateTime'
-CSharpMandatoryValueTypes[ValueType.interval.name] = 'string'
-CSharpMandatoryValueTypes[ValueType.decimal.name] = 'decimal'
-CSharpMandatoryValueTypes[ValueType.void.name] = 'void'
-CSharpMandatoryValueTypes[ValueType.object.name] = 'Object?'
-CSharpMandatoryValueTypes[ValueType.string.name] = 'string?'
-CSharpMandatoryValueTypes[ValueType.int.name] = 'long?'
-CSharpMandatoryValueTypes[ValueType.float.name] = 'double?'
-CSharpMandatoryValueTypes[ValueType.boolean.name] = 'bool?'
-CSharpMandatoryValueTypes[ValueType.dateTime.name] = 'DateTime?'
-CSharpMandatoryValueTypes[ValueType.date.name] = 'DateTime?'
-CSharpMandatoryValueTypes[ValueType.time.name] = 'DateTime?'
-CSharpMandatoryValueTypes[ValueType.interval.name] = 'string?'
-CSharpMandatoryValueTypes[ValueType.decimal.name] = 'decimal?'
-CSharpMandatoryValueTypes[ValueType.void.name] = 'void'
+const CSharpValueTypes: Map<ValueType, string> = new Map<ValueType, string>([
+	[ValueType.object, 'Object'],
+	[ValueType.string, 'string'],
+	[ValueType.int, 'long'],
+	[ValueType.float, 'double'],
+	[ValueType.boolean, 'bool'],
+	[ValueType.dateTime, 'DateTime'],
+	[ValueType.date, 'DateTime'],
+	[ValueType.time, 'DateTime'],
+	[ValueType.interval, 'string'],
+	[ValueType.decimal, 'decimal'],
+	[ValueType.void, 'void'],
+	[ValueType.object.asOptional, 'Object?'],
+	[ValueType.string.asOptional, 'string?'],
+	[ValueType.int.asOptional, 'long?'],
+	[ValueType.float.asOptional, 'double?'],
+	[ValueType.boolean.asOptional, 'bool?'],
+	[ValueType.dateTime.asOptional, 'DateTime?'],
+	[ValueType.date.asOptional, 'DateTime?'],
+	[ValueType.time.asOptional, 'DateTime?'],
+	[ValueType.interval.asOptional, 'string?'],
+	[ValueType.decimal.asOptional, 'decimal?'],
+	[ValueType.void.asOptional, 'void'],
+])
 
 export const typeResolvers = {
-	CSharp: new SimpleMappedValueTypeResolver(ProgrammingLanguage.cSharp, CSharpMandatoryValueTypes),
+	CSharp: new SimpleMappedValueTypeResolver(ProgrammingLanguage.cSharp, CSharpValueTypes),
 }
 
 export const templates = {

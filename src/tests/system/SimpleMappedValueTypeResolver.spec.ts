@@ -5,38 +5,29 @@ import { ValueType } from '../../system/ValueType'
 describe('constructor', () => {
 	it('simple value check', async () => {
 		const language = ProgrammingLanguage.python
-		const resolver = new SimpleMappedValueTypeResolver(
-			language,
-			{
-				object: 'object',
-				string: 'string',
-			},
-			{
-				object: 'object?',
-				string: 'string?',
-			}
-		)
+		const map = new Map<ValueType, string>([
+			[ValueType.object, 'object'],
+			[ValueType.string, 'string'],
+			[ValueType.object.asOptional, 'object?'],
+			[ValueType.string.asOptional, 'string?'],
+		])
+		const resolver = new SimpleMappedValueTypeResolver(language, map)
 
 		expect(resolver.language).toBe(ProgrammingLanguage.python)
-		expect(resolver.mandatoryValueTypes).toBeDefined()
-		expect(resolver.optionalValueTypes).toBeDefined()
+		expect(resolver.types).toBeDefined()
 	})
 })
 
 describe('doesSupport', () => {
 	it('simple value check', async () => {
 		const language = ProgrammingLanguage.python
-		const resolver = new SimpleMappedValueTypeResolver(
-			language,
-			{
-				object: 'object',
-				string: 'string',
-			},
-			{
-				object: 'object?',
-				string: 'string?',
-			}
-		)
+		const map = new Map<ValueType, string>([
+			[ValueType.object, 'object'],
+			[ValueType.string, 'string'],
+			[ValueType.object.asOptional, 'object?'],
+			[ValueType.string.asOptional, 'string?'],
+		])
+		const resolver = new SimpleMappedValueTypeResolver(language, map)
 
 		expect(resolver.doesSupport(language)).toBe(true)
 		expect(resolver.doesSupport(ProgrammingLanguage.tSql)).toBe(false)
@@ -51,20 +42,16 @@ describe('doesSupport', () => {
 describe('doesMap', () => {
 	it('simple value check', async () => {
 		const language = ProgrammingLanguage.python
-		const resolver = new SimpleMappedValueTypeResolver(
-			language,
-			{
-				object: 'object',
-				string: 'string',
-			},
-			{
-				object: 'object?',
-				string: 'string?',
-			}
-		)
+		const map = new Map<ValueType, string>([
+			[ValueType.object, 'object'],
+			[ValueType.string, 'string'],
+			[ValueType.object.asOptional, 'object?'],
+			[ValueType.string.asOptional, 'string?'],
+		])
+		const resolver = new SimpleMappedValueTypeResolver(language, map)
 
-		expect(resolver.doesMap(ValueType.object)).toBe(true)
-		expect(resolver.doesMap(ValueType.void)).toBe(false)
+		expect(resolver.doesMap(ValueType.object.name)).toBe(true)
+		expect(resolver.doesMap(ValueType.void.name)).toBe(false)
 
 		const testFunction1 = (): void => {
 			resolver.doesMap(undefined as any)
@@ -73,55 +60,26 @@ describe('doesMap', () => {
 	})
 })
 
-describe('hasName', () => {
-	it('simple value check', async () => {
-		const language = ProgrammingLanguage.python
-		const resolver = new SimpleMappedValueTypeResolver(
-			language,
-			{
-				object: 'object',
-				string: 'string',
-			},
-			{
-				object: 'object?',
-				string: 'string?',
-			}
-		)
-
-		expect(resolver.hasName(ValueType.object.name)).toBe(true)
-		expect(resolver.hasName(ValueType.void.name)).toBe(false)
-
-		const testFunction1 = (): void => {
-			resolver.hasName(undefined as any)
-		}
-		expect(testFunction1).toThrow()
-	})
-})
-
 describe('fromType', () => {
 	it('simple value check', async () => {
 		const language = ProgrammingLanguage.python
-		const resolver = new SimpleMappedValueTypeResolver(
-			language,
-			{
-				object: 'object',
-				string: 'string',
-			},
-			{
-				object: 'object?',
-				string: 'string?',
-			}
-		)
+		const map = new Map<ValueType, string>([
+			[ValueType.object, 'object'],
+			[ValueType.string, 'string'],
+			[ValueType.object.asOptional, 'object?'],
+			[ValueType.string.asOptional, 'string?'],
+		])
+		const resolver = new SimpleMappedValueTypeResolver(language, map)
 
 		expect(resolver.fromType(ValueType.object)).toBe('object')
-		expect(resolver.fromType(ValueType.object, true)).toBe('object?')
-		expect(resolver.fromType(ValueType.object, false)).toBe('object')
+		expect(resolver.fromType(ValueType.object.asOptional)).toBe('object?')
+		expect(resolver.fromType(ValueType.object)).toBe('object')
 		expect(resolver.fromType(ValueType.string)).toBe('string')
-		expect(resolver.fromType(ValueType.string, true)).toBe('string?')
-		expect(resolver.fromType(ValueType.string, false)).toBe('string')
+		expect(resolver.fromType(ValueType.string.asOptional)).toBe('string?')
+		expect(resolver.fromType(ValueType.string)).toBe('string')
 
 		const nonPrimitive = new ValueType('ValueType', 'INFORMATION_MODEL', 'nonPrimitive', '', false)
-		expect(resolver.fromType(nonPrimitive, false)).toBe('nonPrimitive')
+		expect(resolver.fromType(nonPrimitive)).toBe('nonPrimitive')
 
 		const testFunction1 = (): void => {
 			resolver.fromType(ValueType.void)
@@ -138,17 +96,13 @@ describe('fromType', () => {
 describe('toType', () => {
 	it('simple value check', async () => {
 		const language = ProgrammingLanguage.python
-		const resolver = new SimpleMappedValueTypeResolver(
-			language,
-			{
-				object: 'object',
-				string: 'string',
-			},
-			{
-				object: 'object?',
-				string: 'string?',
-			}
-		)
+		const map = new Map<ValueType, string>([
+			[ValueType.object, 'object'],
+			[ValueType.string, 'string'],
+			[ValueType.object.asOptional, 'object?'],
+			[ValueType.string.asOptional, 'string?'],
+		])
+		const resolver = new SimpleMappedValueTypeResolver(language, map)
 
 		expect(resolver.toTypeName('object')).toBe(ValueType.object.name)
 		expect(resolver.toTypeName('string')).toBe(ValueType.string.name)

@@ -84,22 +84,24 @@ export class TypeScriptClassPropertyToModelHarvester extends AbstractTypeScriptA
 							let propertyType
 							try {
 								propertyType = system.descendants[fullName] as ValueType
-								if (propertyType == null) propertyType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, typeName)
-								if (isArray) propertyType = propertyType.asCollection
+								if (!propertyType) propertyType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, typeName)
+								if (isArray && propertyType) propertyType = propertyType.asCollection
 							} catch (problem) {
 								_thisThis.logger.error(`harvestFromAst(failed) ${problem}`)
 								propertyType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, 'string')
 							}
-							const newProperty = new Property(representedClass.constantCaseFullName, memberName, memberDocumentationText, propertyType, 0)
-							newProperty.permanence = Permanence.persistent
-							newProperty.informational = true
-							newProperty.functional = false
-							newProperty.optional = member.questionToken ? true : false
-							newProperty.origin = ComponentOrigin.harvested
-							newProperty.static = staticModifier ? true : false
+							if (propertyType) {
+								const newProperty = new Property(representedClass.constantCaseFullName, memberName, memberDocumentationText, propertyType, 0)
+								newProperty.permanence = Permanence.persistent
+								newProperty.informational = true
+								newProperty.functional = false
+								newProperty.optional = member.questionToken ? true : false
+								newProperty.origin = ComponentOrigin.harvested
+								newProperty.static = staticModifier ? true : false
 
-							representedClass.addChild(newProperty)
-							results.push(new SystemComponentArtifact(newProperty))
+								representedClass.addChild(newProperty)
+								results.push(new SystemComponentArtifact(newProperty))
+							}
 						}
 						break
 					default:

@@ -83,8 +83,8 @@ describe('install', () => {
 
 		fromType(originalType: any): string {
 			if (originalType === ValueType.string) return undefined as any
-			if (originalType === ValueType.interval.isOptional) return 'special interval'
-			if (originalType === ValueType.time.isOptional) return 'special time'
+			if (originalType === ValueType.interval.asOptional) return 'special interval'
+			if (originalType === ValueType.time.asOptional) return 'special time'
 			return originalType === arbitraryType ? arbitraryType.name : 'nope'
 		}
 

@@ -6,7 +6,6 @@ import { Path } from '../Path'
 import { PathParameter } from '../PathParameter'
 import { Resource } from '../Resource'
 import { RestParameterLocation } from '../RestParameterLocation'
-import { System } from 'typescript'
 import { AbstractSingularBuilder } from '../../../../runtime/AbstractSingularBuilder'
 import { Artifact } from '../../../../system/Artifact'
 import { ProgrammingLanguage } from '../../../../system/ProgrammingLanguage'
@@ -15,6 +14,7 @@ import { SystemComponentType } from '../../../../system/SystemComponentType'
 import { ValueType } from '../../../../system/ValueType'
 import { Variable } from '../../../../system/Variable'
 import { InformationModel, Class, Method } from '../../../information-architecture'
+import { System } from '../../../../system/System'
 
 export class OpenApiJsonToApiHarvester extends AbstractSingularBuilder {
 	constructor(configurationValues?: { [key: string]: any }) {
@@ -45,7 +45,7 @@ export class OpenApiJsonToApiHarvester extends AbstractSingularBuilder {
 			for (let index = 0; index < builtInTypes.length; index++) {
 				const type = builtInTypes[index]
 				if (type.name == typeString || type.name.toUpperCase() === upperSpec) return type
-				const typeScriptName = type.inLanguage(ProgrammingLanguage.typeScript)
+				const typeScriptName = type.toNameInLanguage(ProgrammingLanguage.typeScript)
 				if (typeScriptName == typeString || typeScriptName == upperSpec) return type
 			}
 		}
@@ -55,7 +55,7 @@ export class OpenApiJsonToApiHarvester extends AbstractSingularBuilder {
 			const model = InformationModel.fromSystem(system)
 			const referenceName = referenceString.replace(/#.components.schemas./, '')
 			const fullName = SystemComponent.fullConstantCase(model.fullConstantCaseName, referenceName)
-			let referencedClass = system.descendants[fullName] as ValueType
+			let referencedClass = system.descendants[fullName] as ValueType 
 			if (referenceName === '') {
 				this.logger.info(`valueTypeFromJson(${JSON.stringify(typeSpec, CircularReplacer())}) has empty type specification`)
 				return referencedClass
@@ -63,11 +63,11 @@ export class OpenApiJsonToApiHarvester extends AbstractSingularBuilder {
 			if (referencedClass != null) return referencedClass
 
 			try {
-				referencedClass = ValueType.fromNameInType(ProgrammingLanguage.typeScript, referenceName.toLowerCase())
+				referencedClass = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, referenceName.toLowerCase()) as ValueType
 			} catch (problem) {
 				this.logger.error(`valueTypeFromJson(failed) looking for type '${referenceName.toLowerCase()}' ${problem}`)
 			}
-			if (referencedClass != null) return referencedClass
+			if (referencedClass) return referencedClass
 		}
 
 		return ValueType.string

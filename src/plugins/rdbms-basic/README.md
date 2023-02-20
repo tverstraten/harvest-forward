@@ -1,6 +1,6 @@
 # RDBMS Plugin
 
-This plugin includes a number of model classes to define the shape of data to define a relational database. It also includes a generic base harvestor and some transformers for rationalizing information about a relational database.
+This plugin includes a number of model classes to define the shape of data to define a relational database. It also includes a generic base harvester and some transformers for rationalizing information about a relational database.
 
 The model classes available are:
 

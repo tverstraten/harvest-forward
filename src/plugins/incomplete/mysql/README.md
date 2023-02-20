@@ -1,6 +1,6 @@
 # MySql Plugin
 
-A plugin that provides harvestors and transformers for reverse engineering a MySql database plus a template for generating a MySql schema file. There are no model classes included in this, the shape of the model is dervied from the model classes in the [rdbms basic](../rdbms-basic/README.md) plugin.
+A plugin that provides harvesters and transformers for reverse engineering a MySql database plus a template for generating a MySql schema file. There are no model classes included in this, the shape of the model is dervied from the model classes in the [rdbms basic](../rdbms-basic/README.md) plugin.
 
 The harvesters that are included are:
 

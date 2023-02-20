@@ -8,14 +8,14 @@ import { Class } from '../../information-architecture'
 import { AbstractTypeScriptAstHarvester } from '../../typescript/AbstractTypeScriptAstHarvester'
 
 /**
- * a harvestor that takes typescript code for service classes and harvest service dependencies
+ * A harvester that takes typescript code for service classes and harvest service dependencies
  */
-export class TypescriptServiceDependencyHarvestor extends AbstractTypeScriptAstHarvester {
+export class TypescriptServiceDependencyHarvester extends AbstractTypeScriptAstHarvester {
 	/**
-	 * create a new instance of the harvestor
+	 * create a new instance of the harvester
 	 */
 	constructor(configurationValues?: { [key: string]: any }) {
-		super('TypescriptServiceDependencyHarvestor', 'A harvestor that reads service dependency information from typescript files', {}, configurationValues)
+		super('A harvester that reads service dependency information from typescript files', {}, configurationValues)
 	}
 
 	/**
@@ -63,7 +63,7 @@ export class TypescriptServiceDependencyHarvestor extends AbstractTypeScriptAstH
 							const fullName = SystemComponent.fullConstantCase('service', name)
 							const serviceClass = system.descendants[fullName] as Class
 							if (serviceClass != null) {
-								serviceClass.typeDependencies = importedClasses
+								serviceClass.specifiedDependencies = importedClasses
 							}
 						}
 						break

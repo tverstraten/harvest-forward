@@ -1,6 +1,6 @@
 # Information Architecture Plugin
 
-This plugin include model classes to help define the shape of a system. There are no harvestors, transformers or generators.
+This plugin include model classes to help define the shape of a system. There are no harvesters, transformers or generators.
 
 The model classes are:
 

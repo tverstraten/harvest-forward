@@ -49,36 +49,12 @@ export class PropertyToColumnTransformer extends AbstractSingularBuilder {
 			const property = member as Property
 			const columnName = `${property.name}`
 			const columnDescription = property.description
-			let dataType
 			const valueType = property.type
-			let ansiTypeDeclaration
 			const hasLengthRule = property.rules?.find((rule) => rule instanceof LengthRule)
 			const length = hasLengthRule ? (hasLengthRule as LengthRule).maximum : 255
-			switch (property.type) {
-				case ValueType.dateTime:
-					dataType = 'DATETIME'
-					ansiTypeDeclaration = 'DATETIME'
-					break
-				case ValueType.float:
-					dataType = 'NUMBER'
-					ansiTypeDeclaration = 'NUMBER'
-					break
-				case ValueType.boolean:
-					dataType = 'BIT'
-					ansiTypeDeclaration = 'BIT'
-					break
-				case ValueType.dateTime:
-					dataType = 'DATETIME'
-					ansiTypeDeclaration = 'DATETIME'
-					break
-				default:
-					dataType = `VARCHAR(${length})`
-					ansiTypeDeclaration = `VARCHAR(${length})`
-			}
-			const column = new Column(schema.fullConstantCaseName, tableName, columnName, columnDescription, valueType, length, ansiTypeDeclaration)
+			const column = new Column(schema.fullConstantCaseName, tableName, columnName, columnDescription, valueType, length)
 			column.permanence = Permanence.constant
 			column.informational = false
-			column.ansiTypeDeclaration = ansiTypeDeclaration
 			column.functional = true
 			column.origin = ComponentOrigin.manufactured
 			column.autoIncrement = columnName == 'id'
