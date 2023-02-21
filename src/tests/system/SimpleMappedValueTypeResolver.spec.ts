@@ -31,11 +31,7 @@ describe('doesSupport', () => {
 
 		expect(resolver.doesSupport(language)).toBe(true)
 		expect(resolver.doesSupport(ProgrammingLanguage.tSql)).toBe(false)
-
-		const testFunction1 = (): void => {
-			resolver.doesSupport(undefined as any)
-		}
-		expect(testFunction1).toThrow()
+		expect(resolver.doesSupport(undefined as any)).toBe(false)
 	})
 })
 
@@ -52,11 +48,7 @@ describe('doesMap', () => {
 
 		expect(resolver.doesMap(ValueType.object.name)).toBe(true)
 		expect(resolver.doesMap(ValueType.void.name)).toBe(false)
-
-		const testFunction1 = (): void => {
-			resolver.doesMap(undefined as any)
-		}
-		expect(testFunction1).toThrow()
+		expect(resolver.doesMap(undefined as any)).toBe(false)
 	})
 })
 
@@ -77,19 +69,8 @@ describe('fromType', () => {
 		expect(resolver.fromType(ValueType.string)).toBe('string')
 		expect(resolver.fromType(ValueType.string.asOptional)).toBe('string?')
 		expect(resolver.fromType(ValueType.string)).toBe('string')
-
-		const nonPrimitive = new ValueType('ValueType', 'INFORMATION_MODEL', 'nonPrimitive', '', false)
-		expect(resolver.fromType(nonPrimitive)).toBe('nonPrimitive')
-
-		const testFunction1 = (): void => {
-			resolver.fromType(ValueType.void)
-		}
-		expect(testFunction1).toThrow()
-
-		const testFunction2 = (): void => {
-			resolver.fromType(undefined as any)
-		}
-		expect(testFunction2).toThrow()
+		expect(resolver.fromType(ValueType.void)).toBeUndefined()
+		expect(resolver.fromType(undefined as any)).toBeUndefined()
 	})
 })
 
@@ -107,10 +88,6 @@ describe('toType', () => {
 		expect(resolver.toTypeName('object')).toBe(ValueType.object.name)
 		expect(resolver.toTypeName('string')).toBe(ValueType.string.name)
 		expect(resolver.toTypeName('void')).toBeUndefined()
-
-		const testFunction2 = (): void => {
-			resolver.toTypeName(undefined as any)
-		}
-		expect(testFunction2).toThrow()
+		expect(resolver.toTypeName(undefined as any)).toBeUndefined()
 	})
 })

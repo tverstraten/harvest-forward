@@ -55,11 +55,16 @@ export class TypeScriptClassPropertyToModelHarvester extends AbstractTypeScriptA
 								else {
 									const initializerText = definingInitializer.getText(ast)
 									if (initializerText) {
-										if (!isNaN(parseInt(initializerText))) typeName = 'INT'
-										else if (!isNaN(parseFloat(initializerText))) typeName = 'FLOAT'
+										if (!isNaN(parseInt(initializerText))) typeName = 'number'
+										else if (!isNaN(parseFloat(initializerText))) typeName = 'number'
 										else {
-											const asJson = JSON.parse(initializerText)
-											if (typeof asJson == 'boolean') typeName = 'BOOLEAN'
+											try {
+												const asJson = JSON.parse(initializerText)
+												if (typeof asJson == 'boolean') typeName = 'boolean'
+												else typeName = 'string'
+											} catch (problem) {
+												typeName = 'string'
+											}
 										}
 									}
 								}

@@ -1,6 +1,7 @@
 import { Logging } from '@tverstraten/log-annotations'
 import Handlebars from 'handlebars'
 import { ProgrammingLanguage } from '../../system/ProgrammingLanguage'
+import { ValueType } from '../../system/ValueType'
 
 export class LanguageHelpers {
 	private static helpersRegistered = false
@@ -29,47 +30,55 @@ export class LanguageHelpers {
 		return type ? (typeof type == 'string' ? type : type.toNameInLanguage(language)) : 'undefined'
 	}
 
-	cSharp(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.cSharp)
+	toAny(type: ValueType | string, language: ProgrammingLanguage): string | undefined {
+		if (typeof type == 'string') {
+			const genericType = ValueType.fromName(type)
+			return genericType ? genericType.toNameInLanguage(language) : undefined
+		}
+		return type ? type.toNameInLanguage(language) : undefined
 	}
 
-	go(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.go)
+	cSharp(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.cSharp)
 	}
 
-	javaScript(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.javaScript)
+	go(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.go)
 	}
 
-	java(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.java)
+	javaScript(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.javaScript)
 	}
 
-	php(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.php)
+	java(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.java)
 	}
 
-	python(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.python)
+	php(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.php)
 	}
 
-	sql(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.sql)
+	python(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.python)
 	}
 
-	tSql(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.tSql)
+	sql(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.sql)
 	}
 
-	typeScript(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.typeScript)
+	tSql(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.tSql)
 	}
 
-	visualBasic(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.visualBasic)
+	typeScript(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.typeScript)
 	}
 
-	visualBasicNet(type: any): string {
-		return type.toNameInLanguage(ProgrammingLanguage.visualBasicNet)
+	visualBasic(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.visualBasic)
+	}
+
+	visualBasicNet(type: any): string | undefined {
+		return this.toAny(type, ProgrammingLanguage.visualBasicNet)
 	}
 }

@@ -51,7 +51,7 @@ describe('asCollection', () => {
 describe('getValues', () => {
 	it('all there', async () => {
 		const types = ValueType.getValues()
-		expect(types.length).toBe(12)
+		expect(types.length).toBe(23)
 		expect(types.includes(ValueType.object)).toBe(true)
 		expect(types.includes(ValueType.string)).toBe(true)
 		expect(types.includes(ValueType.int)).toBe(true)
@@ -82,10 +82,19 @@ describe('install', () => {
 		}
 
 		fromType(originalType: any): string {
-			if (originalType === ValueType.string) return undefined as any
-			if (originalType === ValueType.interval.asOptional) return 'special interval'
-			if (originalType === ValueType.time.asOptional) return 'special time'
-			return originalType === arbitraryType ? arbitraryType.name : 'nope'
+			if (typeof originalType == 'string') {
+				if (originalType === ValueType.string.name) return undefined as any
+				if (originalType === ValueType.interval.asOptional.name) return 'special interval'
+				if (originalType === ValueType.time.asOptional.name) return 'special time'
+				if (originalType === arbitraryType.name) return arbitraryType.name
+				if (originalType === arbitraryType.asCollection.name) return arbitraryType.asCollection.name
+			} else {
+				if (originalType === ValueType.string) return undefined as any
+				if (originalType === ValueType.interval.asOptional) return 'special interval'
+				if (originalType === ValueType.time.asOptional) return 'special time'
+				if (originalType === arbitraryType) return arbitraryType.name
+			}
+			return 'nope'
 		}
 
 		hasName(name: string): boolean {
@@ -96,8 +105,8 @@ describe('install', () => {
 			return arbitraryTypeName === name ? arbitraryReturnedTypeName : ''
 		}
 
-		toType(__name: string): ValueType {
-			return ValueType.string
+		toType(name: string): ValueType | undefined {
+			return name == 'string' ? undefined : ValueType.string
 		}
 	}
 	const resolver = new TestResolver()
@@ -107,9 +116,9 @@ describe('install', () => {
 	})
 
 	it('hasNameInLanguage', async () => {
-		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.sql, 'noSuchName')).toBe(false)
+		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.sql, 'string')).toBe(false)
 		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.sql, arbitraryTypeName)).toBe(true)
-		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.tSql, 'noSuchName')).toBe(false)
+		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.tSql, 'string')).toBe(false)
 		expect(ValueType.hasNameInLanguage(ProgrammingLanguage.tSql, arbitraryTypeName)).toBe(false)
 	})
 
@@ -123,30 +132,20 @@ describe('install', () => {
 		result = ValueType.fromNameInLanguage(ProgrammingLanguage.sql, 'noSuchName')
 		expect(result).toBe(ValueType.string)
 
-		const testFunction2 = (): void => {
-			ValueType.fromNameInLanguage(ProgrammingLanguage.tSql, 'noSuchName')
-		}
-		expect(testFunction2).toThrow()
-
-		const testFunction3 = (): void => {
-			ValueType.fromNameInLanguage(ProgrammingLanguage.tSql, arbitraryTypeName)
-		}
-		expect(testFunction3).toThrow()
+		expect(ValueType.fromNameInLanguage(ProgrammingLanguage.tSql, 'noSuchName')).toBeUndefined()
+		expect(ValueType.fromNameInLanguage(ProgrammingLanguage.tSql, arbitraryTypeName)).toBeUndefined()
 	})
 
 	it('inLanguage', async () => {
 		expect(arbitraryType.toNameInLanguage(ProgrammingLanguage.sql)).toBe(arbitraryTypeName)
 		expect(arbitraryType.asCollection.toNameInLanguage(ProgrammingLanguage.sql)).toBe(`${arbitraryTypeName}[]`)
-		expect(ValueType.string.toNameInLanguage(ProgrammingLanguage.sql)).toBe(ValueType.string.name)
+		expect(ValueType.string.toNameInLanguage(ProgrammingLanguage.sql)).toBeUndefined()
 
-		const testFunction1 = (): void => {
-			const typeNotInLanguage = new ValueType('ValueType', 'INFORMATION_MODEL', 'someObject', '', false)
-			typeNotInLanguage.toNameInLanguage(ProgrammingLanguage.tSql)
-		}
-		expect(testFunction1).toThrow()
+		const typeNotInLanguage = new ValueType('ValueType', 'INFORMATION_MODEL', 'someObject', '', false)
+		expect(typeNotInLanguage.toNameInLanguage(ProgrammingLanguage.tSql)).toBeUndefined()
 
 		// this is not mapped so it goes through a different branch of code
-		expect(ValueType.boolean.toNameInLanguage(ProgrammingLanguage.sql)).toBe(ValueType.boolean.name)
+		expect(ValueType.boolean.toNameInLanguage(ProgrammingLanguage.sql)).toBe('nope')
 		expect(arbitraryType.toNameInLanguage(ProgrammingLanguage.sql)).toBe(arbitraryTypeName)
 	})
 })
@@ -171,10 +170,7 @@ describe('hasName', () => {
 	})
 
 	it('bad', async () => {
-		const testFunction1 = (): void => {
-			ValueType.hasName(undefined as any)
-		}
-		expect(testFunction1).toThrow()
+		expect(ValueType.hasName(undefined as any)).toBe(false)
 	})
 })
 

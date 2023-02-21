@@ -21,7 +21,7 @@ describe('run', () => {
 
 		const methodBuilder = new TypeScriptClassMethodToModelHarvester({
 			sourcePath: __dirname,
-			fileNamePattern: '.*(?<!_ex)$',
+			fileNamePattern: '^[^.]*(?!spec)*[.]ts$',
 			classNamePattern: '.*',
 		})
 		await methodBuilder.build(system)

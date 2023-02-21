@@ -56,32 +56,34 @@ export class ValueType extends SystemDescendantComponent {
 	static void = new ValueType('ValueType', 'INFORMATION_MODEL', 'void', '', true)
 
 	get asOptional(): ValueType {
-		if (this._asOptional == null) {
-			this._asOptional = new ValueType(
-				'ValueType',
-				this.constantCaseNameSpace,
-				`${this.name}?`,
-				`An optional version of the object described as: ${this.description}`,
-				this.primitive
-			)
-			this._asOptional.isOptional = true
-			return this._asOptional
-		} else return this._asOptional
+		if (this._asOptional) return this._asOptional
+
+		this._asOptional = new ValueType(
+			'ValueType',
+			this.constantCaseNameSpace,
+			`${this.name}?`,
+			`An optional version of the object described as: ${this.description}`,
+			this.primitive
+		)
+		this._asOptional.isOptional = true
+
+		return this._asOptional
 	}
 
 	get asCollection(): ValueType {
-		if (this._asCollection == null) {
-			this._asCollection = new ValueType(
-				'ValueType',
-				this.constantCaseNameSpace,
-				`${this.name}[]`,
-				`A collection of objects described as: ${this.description}`,
-				this.primitive
-			)
-			this._asCollection.collectedType = this
-			this._asCollection.isCollection = true
-			return this._asCollection
-		} else return this._asCollection
+		if (this._asCollection) return this._asCollection
+
+		this._asCollection = new ValueType(
+			'ValueType',
+			this.constantCaseNameSpace,
+			`${this.name}[]`,
+			`A collection of objects described as: ${this.description}`,
+			this.primitive
+		)
+		this._asCollection.collectedType = this
+		this._asCollection.isCollection = true
+
+		return this._asCollection
 	}
 
 	static types = [
@@ -126,7 +128,7 @@ export class ValueType extends SystemDescendantComponent {
 	// remove
 	static hasNameInLanguage(language: ProgrammingLanguage, name: string): boolean {
 		const resolver = ValueType.typeResolverMap[language.name]
-		return resolver.toType(name) ? true : false
+		return resolver && resolver.toType(name) ? true : false
 	}
 
 	// remove
@@ -137,16 +139,16 @@ export class ValueType extends SystemDescendantComponent {
 
 	toNameInLanguage(language: ProgrammingLanguage): string | undefined {
 		const resolver = ValueType.typeResolverMap[language.name]
-		return resolver.fromType(this.name)
+		return resolver ? resolver.fromType(this.name) : undefined
 	}
 
 	static fromNameInLanguage(language: ProgrammingLanguage, name: string): ValueType | undefined {
 		const resolver = ValueType.typeResolverMap[language.name]
-		return resolver.toType(name)
+		return resolver ? resolver.toType(name) : undefined
 	}
 
 	static fromName(name: string): ValueType | undefined {
-		return ValueType.types.find((type) => (type.name = name))
+		return ValueType.types.find((type) => type.name == name)
 	}
 
 	get isObject(): boolean {

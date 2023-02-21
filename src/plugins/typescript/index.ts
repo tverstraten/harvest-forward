@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { Builder } from '../../runtime/Builder'
+import { BidirectionalMappedValueTypeResolver } from '../../system/BidirectionalMappedValueTypeResolver'
 import { ProgrammingLanguage } from '../../system/ProgrammingLanguage'
-import { SimpleMappedValueTypeResolver } from '../../system/SimpleMappedValueTypeResolver'
 import { ValueType } from '../../system/ValueType'
 import { TypescriptClassInheritanceHarvester } from './TypescriptClassInheritanceHarvester'
 import { TypeScriptClassMethodToModelHarvester } from './TypeScriptClassMethodToModelHarvester'
@@ -23,25 +23,36 @@ const TypeScriptValueTypes: Map<ValueType, string> = new Map<ValueType, string>(
 	[ValueType.interval, 'string'],
 	[ValueType.decimal, 'number'],
 	[ValueType.void, 'void'],
-	[ValueType.object.asOptional, 'any | undefined'],
-	[ValueType.string.asOptional, 'string | undefined'],
-	[ValueType.int.asOptional, 'number | undefined'],
-	[ValueType.number.asOptional, 'number | undefined'],
-	[ValueType.float.asOptional, 'number | undefined'],
-	[ValueType.boolean.asOptional, 'boolean | undefined'],
-	[ValueType.dateTime.asOptional, 'Date | undefined'],
-	[ValueType.date.asOptional, 'Date | undefined'],
-	[ValueType.time.asOptional, 'Date | undefined'],
-	[ValueType.interval.asOptional, 'string | undefined'],
-	[ValueType.decimal.asOptional, 'number | undefined'],
+	[ValueType.object.asOptional, 'any?'],
+	[ValueType.string.asOptional, 'string?'],
+	[ValueType.int.asOptional, 'number?'],
+	[ValueType.number.asOptional, 'number?'],
+	[ValueType.float.asOptional, 'number?'],
+	[ValueType.boolean.asOptional, 'boolean?'],
+	[ValueType.dateTime.asOptional, 'Date?'],
+	[ValueType.date.asOptional, 'Date?'],
+	[ValueType.time.asOptional, 'Date?'],
+	[ValueType.interval.asOptional, 'string?'],
+	[ValueType.decimal.asOptional, 'number?'],
 	[ValueType.void.asOptional, 'void'],
 ])
 
+const ReverseTypeScriptValueTypes: Map<string, ValueType> = new Map<string, ValueType>([
+	['any', ValueType.object],
+	['string', ValueType.string],
+	['number', ValueType.number],
+	['boolean', ValueType.boolean],
+	['Date', ValueType.dateTime],
+	['void', ValueType.void],
+	['any?', ValueType.object.asOptional],
+	['string?', ValueType.string.asOptional],
+	['number?', ValueType.number.asOptional],
+	['boolean?', ValueType.boolean.asOptional],
+	['Date?', ValueType.dateTime.asOptional],
+])
+
 export const TYPE_RESOLVERS = {
-	typeScript: new SimpleMappedValueTypeResolver(
-		ProgrammingLanguage.typeScript,
-		TypeScriptValueTypes
-	),
+	typeScript: new BidirectionalMappedValueTypeResolver(ProgrammingLanguage.typeScript, TypeScriptValueTypes, ReverseTypeScriptValueTypes),
 }
 
 export const BUILDERS = {

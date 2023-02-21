@@ -33,7 +33,7 @@ describe('run', () => {
 
 		const propertyBuilder = new TypeScriptClassPropertyToModelHarvester({
 			sourcePath: __dirname,
-			fileNamePattern: '.*(?<!_ex)$',
+			fileNamePattern: '^[^.]*(?!spec)*[.]ts$',
 			classNamePattern: '.*',
 		})
 		await propertyBuilder.build(system)

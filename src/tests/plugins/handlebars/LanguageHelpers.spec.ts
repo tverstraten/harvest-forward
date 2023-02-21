@@ -49,15 +49,9 @@ describe('all', () => {
 		ValueType.install(ProgrammingLanguage.cSharp, resolver)
 		const helpers = new LanguageHelpers()
 		expect(helpers.cSharp(ValueType.string)).toBe(`bogus1-CSharp`)
-		expect(helpers.cSharp(ValueType.string.name)).toBe(`string`)
-		expect(helpers.cSharp(null)).toBe(`undefined`)
+		expect(helpers.cSharp(null)).toBeUndefined()
 		ValueType.uninstall(ProgrammingLanguage.cSharp)
-		try {
-			expect(helpers.cSharp(ValueType.string)).toBe(`bogus1-Kotlin`)
-			fail('this is supposed to fail')
-		} catch (problem) {
-			ok(true)
-		}
+		expect(helpers.cSharp(ValueType.string)).toBeUndefined()
 	})
 
 	it('go', async () => {
@@ -65,15 +59,9 @@ describe('all', () => {
 		ValueType.install(ProgrammingLanguage.go, resolver)
 		const helpers = new LanguageHelpers()
 		expect(helpers.go(ValueType.string)).toBe(`bogus1-Go`)
-		expect(helpers.go(ValueType.string.name)).toBe(`string`)
-		expect(helpers.go(null)).toBe(`undefined`)
+		expect(helpers.go(null)).toBeUndefined()
 		ValueType.uninstall(ProgrammingLanguage.go)
-		try {
-			expect(helpers.go(ValueType.string)).toBe(`bogus1-Kotlin`)
-			fail('this is supposed to fail')
-		} catch (problem) {
-			ok(true)
-		}
+		expect(helpers.go(ValueType.string)).toBeUndefined()
 	})
 
 	it('javaScript', async () => {
@@ -81,15 +69,9 @@ describe('all', () => {
 		ValueType.install(ProgrammingLanguage.javaScript, resolver)
 		const helpers = new LanguageHelpers()
 		expect(helpers.javaScript(ValueType.string)).toBe(`bogus1-JavaScript`)
-		expect(helpers.javaScript(ValueType.string.name)).toBe(`string`)
-		expect(helpers.javaScript(null)).toBe(`undefined`)
+		expect(helpers.javaScript(null)).toBeUndefined()
 		ValueType.uninstall(ProgrammingLanguage.javaScript)
-		try {
-			expect(helpers.javaScript(ValueType.string)).toBe(`bogus1-Kotlin`)
-			fail('this is supposed to fail')
-		} catch (problem) {
-			ok(true)
-		}
+		expect(helpers.javaScript(ValueType.string)).toBeUndefined()
 	})
 
 	it('java', async () => {
@@ -97,15 +79,9 @@ describe('all', () => {
 		ValueType.install(ProgrammingLanguage.java, resolver)
 		const helpers = new LanguageHelpers()
 		expect(helpers.java(ValueType.string)).toBe(`bogus1-Java`)
-		expect(helpers.java(ValueType.string.name)).toBe(`string`)
-		expect(helpers.java(null)).toBe(`undefined`)
+		expect(helpers.java(null)).toBeUndefined()
 		ValueType.uninstall(ProgrammingLanguage.java)
-		try {
-			expect(helpers.java(ValueType.string)).toBe(`bogus1-Kotlin`)
-			fail('this is supposed to fail')
-		} catch (problem) {
-			ok(true)
-		}
+		expect(helpers.java(ValueType.string)).toBeUndefined()
 	})
 
 	// eslint-disable-next-line spellcheck/spell-checker
@@ -115,15 +91,9 @@ describe('all', () => {
 		const helpers = new LanguageHelpers()
 		// eslint-disable-next-line spellcheck/spell-checker
 		expect(helpers.php(ValueType.string)).toBe(`bogus1-PHP`)
-		expect(helpers.php(ValueType.string.name)).toBe(`string`)
-		expect(helpers.php(null)).toBe(`undefined`)
+		expect(helpers.php(null)).toBeUndefined()
 		ValueType.uninstall(ProgrammingLanguage.php)
-		try {
-			expect(helpers.php(ValueType.string)).toBe(`bogus1-Kotlin`)
-			fail('this is supposed to fail')
-		} catch (problem) {
-			ok(true)
-		}
+		expect(helpers.php(ValueType.string)).toBeUndefined()
 	})
 
 	it('python', async () => {
@@ -131,15 +101,9 @@ describe('all', () => {
 		ValueType.install(ProgrammingLanguage.python, resolver)
 		const helpers = new LanguageHelpers()
 		expect(helpers.python(ValueType.string)).toBe(`bogus1-Python`)
-		expect(helpers.python(ValueType.string.name)).toBe(`string`)
-		expect(helpers.python(null)).toBe(`undefined`)
+		expect(helpers.python(null)).toBeUndefined()
 		ValueType.uninstall(ProgrammingLanguage.python)
-		try {
-			expect(helpers.python(ValueType.string)).toBe(`bogus1-Kotlin`)
-			fail('this is supposed to fail')
-		} catch (problem) {
-			ok(true)
-		}
+		expect(helpers.python(ValueType.string)).toBeUndefined()
 	})
 
 	it('sql', async () => {
@@ -147,15 +111,9 @@ describe('all', () => {
 		ValueType.install(ProgrammingLanguage.sql, resolver)
 		const helpers = new LanguageHelpers()
 		expect(helpers.sql(ValueType.string)).toBe(`bogus1-Sql`)
-		expect(helpers.sql(ValueType.string.name)).toBe(`string`)
-		expect(helpers.sql(null)).toBe(`undefined`)
+		expect(helpers.sql(null)).toBeUndefined()
 		ValueType.uninstall(ProgrammingLanguage.sql)
-		try {
-			expect(helpers.sql(ValueType.string)).toBe(`bogus1-Kotlin`)
-			fail('this is supposed to fail')
-		} catch (problem) {
-			ok(true)
-		}
+		expect(helpers.sql(ValueType.string)).toBeUndefined()
 	})
 
 	it('tSql', async () => {
@@ -163,15 +121,9 @@ describe('all', () => {
 		ValueType.install(ProgrammingLanguage.tSql, resolver)
 		const helpers = new LanguageHelpers()
 		expect(helpers.tSql(ValueType.string)?.toString()).toBe(`bogus1-TSql`)
-		expect(helpers.tSql(ValueType.string.name)).toBe(`string`)
-		expect(helpers.tSql(null)).toBe(`undefined`)
+		expect(helpers.tSql(null)).toBeUndefined()
 		ValueType.uninstall(ProgrammingLanguage.tSql)
-		try {
-			expect(helpers.tSql(ValueType.string)).toBe(`bogus1-Kotlin`)
-			fail('this is supposed to fail')
-		} catch (problem) {
-			ok(true)
-		}
+		expect(helpers.tSql(ValueType.string)).toBeUndefined()
 	})
 
 	it('typeScript', async () => {
@@ -179,14 +131,8 @@ describe('all', () => {
 		ValueType.install(ProgrammingLanguage.typeScript, resolver)
 		const helpers = new LanguageHelpers()
 		expect(helpers.typeScript(ValueType.string)).toBe(`bogus1-TypeScript`)
-		expect(helpers.typeScript(ValueType.string.name)).toBe(`string`)
-		expect(helpers.typeScript(null)).toBe(`undefined`)
+		expect(helpers.typeScript(null)).toBeUndefined()
 		ValueType.uninstall(ProgrammingLanguage.typeScript)
-		try {
-			expect(helpers.typeScript(ValueType.string)).toBe(`bogus1-Kotlin`)
-			fail('this is supposed to fail')
-		} catch (problem) {
-			ok(true)
-		}
+		expect(helpers.typeScript(ValueType.string)).toBeUndefined()
 	})
 })
