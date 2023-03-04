@@ -7,6 +7,8 @@ export class SimpleMappedValueTypeResolver implements ValueTypeResolver {
 
 	readonly types: Map<ValueType, string>
 
+	readonly nameMap: Map<string, string>
+
 	private reverseMap: Map<string, ValueType>
 
 	constructor(language: ProgrammingLanguage, types: Map<ValueType, string>) {
@@ -14,9 +16,11 @@ export class SimpleMappedValueTypeResolver implements ValueTypeResolver {
 		this.types = types
 
 		this.reverseMap = new Map<string, ValueType>()
+		this.nameMap = new Map<string, string>()
 
 		types.forEach((name, type) => {
 			this.reverseMap.set(name, type)
+			this.nameMap.set(type.name, name)
 		})
 	}
 
@@ -28,7 +32,8 @@ export class SimpleMappedValueTypeResolver implements ValueTypeResolver {
 		return this.reverseMap.has(typeName)
 	}
 
-	fromType(type: ValueType): string | undefined {
+	fromType(type: ValueType | string): string | undefined {
+		if (typeof type === 'string') return this.nameMap.get(type)
 		return this.types.get(type)
 	}
 

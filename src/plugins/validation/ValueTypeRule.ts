@@ -1,7 +1,7 @@
 import { ValueType } from '../../system/ValueType'
-import { AbstractRule } from './AbstractRule'
+import { Rule } from './Rule'
 
-export class ValueTypeRule extends AbstractRule {
+export class ValueTypeRule extends Rule {
 	validTypes: ValueType[] = []
 
 	constructor(nameSpace: string, name: string, description: string) {

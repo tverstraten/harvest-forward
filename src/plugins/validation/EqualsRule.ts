@@ -1,6 +1,6 @@
-import { AbstractRule } from './AbstractRule'
+import { Rule } from './Rule'
 
-export class EqualsRule extends AbstractRule {
+export class EqualsRule extends Rule {
 	value: any
 
 	constructor(nameSpace: string, name: string, description: string) {

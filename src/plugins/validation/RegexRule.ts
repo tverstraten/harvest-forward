@@ -1,6 +1,6 @@
-import { AbstractRule } from './AbstractRule'
+import { Rule } from './Rule'
 
-export class RegexRule extends AbstractRule {
+export class RegexRule extends Rule {
 	pattern = ''
 
 	constructor(nameSpace: string, name: string, description: string) {

@@ -15,6 +15,8 @@ export class ValueType extends SystemDescendantComponent {
 
 	private _asOptional?: ValueType
 
+	private _asMandatory?: ValueType
+
 	isCollection = false
 
 	private _asCollection?: ValueType
@@ -66,8 +68,25 @@ export class ValueType extends SystemDescendantComponent {
 			this.primitive
 		)
 		this._asOptional.isOptional = true
+		this._asOptional._asMandatory = this
 
 		return this._asOptional
+	}
+
+	get asMandatory(): ValueType {
+		if (this._asMandatory) return this._asMandatory
+
+		this._asMandatory = new ValueType(
+			'ValueType',
+			this.constantCaseNameSpace,
+			`${this.name}?`,
+			`An mandatory version of the object described as: ${this.description}`,
+			this.primitive
+		)
+		this._asMandatory.isOptional = false
+		this._asMandatory._asOptional = this
+
+		return this._asMandatory
 	}
 
 	get asCollection(): ValueType {

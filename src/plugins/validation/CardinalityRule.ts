@@ -1,6 +1,6 @@
-import { AbstractRule } from './AbstractRule'
+import { Rule } from './Rule'
 
-export class CardinalityRule extends AbstractRule {
+export class CardinalityRule extends Rule {
 	minimum: number = Number.NEGATIVE_INFINITY
 
 	maximum: number = Number.POSITIVE_INFINITY

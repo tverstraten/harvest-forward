@@ -3,7 +3,7 @@ import { SystemComponent } from '../../../system/SystemComponent'
 import { SystemComponentType } from '../../../system/SystemComponentType'
 import { ValueSpecification } from '../../../system/ValueSpecification'
 import { ValueType } from '../../../system/ValueType'
-import { AbstractRule } from '../../validation'
+import { Rule } from '../../validation'
 import { ObjectTypeMember } from './ObjectTypeMember'
 
 export class ObjectTypeDataMember extends ObjectTypeMember implements ValueSpecification {
@@ -29,13 +29,13 @@ export class ObjectTypeDataMember extends ObjectTypeMember implements ValueSpeci
 
 	addChild(child: SystemComponent): void {
 		super.addChild(child)
-		if (child instanceof AbstractRule) {
+		if (child instanceof Rule) {
 			this.rules.push(child)
 		}
 	}
 
 	removeChild(child: SystemComponent): boolean {
-		if (child instanceof AbstractRule) {
+		if (child instanceof Rule) {
 			const index = this.rules.indexOf(child)
 			this.rules.splice(index, 1)
 		}

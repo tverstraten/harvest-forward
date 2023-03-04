@@ -5,7 +5,7 @@ import { SystemComponentComparator } from '../../../system/SystemComponentCompar
 import { SystemComponentType } from '../../../system/SystemComponentType'
 import { SystemDescendantComponent } from '../../../system/SystemDescendantComponent'
 import { ValueType } from '../../../system/ValueType'
-import { AbstractRule, Rule } from '../../validation'
+import { Rule } from '../../validation'
 import { ObjectTypeDataMember } from './ObjectTypeDataMember'
 import { ObjectTypeMember } from './ObjectTypeMember'
 
@@ -87,7 +87,7 @@ export class ObjectType extends ValueType implements StringIdentifiable {
 			this._dataMembers[child.name] = child
 		} else if (child instanceof ObjectTypeMember) {
 			this._members[child.name] = child
-		} else if (child instanceof AbstractRule) {
+		} else if (child instanceof Rule) {
 			this._rules.push(child)
 		}
 	}
@@ -98,7 +98,7 @@ export class ObjectType extends ValueType implements StringIdentifiable {
 			delete this._dataMembers[child.name]
 		} else if (child instanceof ObjectTypeMember) {
 			delete this._members[child.name]
-		} else if (child instanceof AbstractRule) {
+		} else if (child instanceof Rule) {
 			const index = this._rules.indexOf(child)
 			this._rules.splice(index, 1)
 		}

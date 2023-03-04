@@ -1,5 +1,8 @@
-import { Describable } from '../../system/Describable'
-import { Nameable } from '../../system/Nameable'
-import { StringIdentifiable } from '../../system/StringIdentifiable'
+import { SystemComponentType } from '../../system/SystemComponentType'
+import { SystemDescendantComponent } from '../../system/SystemDescendantComponent'
 
-export interface Rule extends StringIdentifiable, Nameable, Describable {}
+export class Rule extends SystemDescendantComponent {
+	constructor(objectType: string, nameSpace: string, name: string, description: string) {
+		super(objectType, nameSpace, name, SystemComponentType.validationRule, description)
+	}
+}
