@@ -7,8 +7,8 @@ import { System } from '../../../system/System'
 import { SystemComponent } from '../../../system/SystemComponent'
 import { SystemComponentArtifact } from '../../../system/SystemComponentArtifact'
 import { ValueType } from '../../../system/ValueType'
-import { Class, ObjectTypeDataMember, Property } from '../../information-architecture'
-import { Column, RelationalDatabase, Schema, Table } from '../../rdbms-basic'
+import { Class, EnumeratedValue, ObjectTypeDataMember, Property } from '../../information-architecture'
+import { Column, Domain, DomainValue, RelationalDatabase, Schema, Table } from '../../rdbms-basic'
 import { LengthRule } from '../../validation'
 
 export class PropertyToColumnTransformer extends AbstractSingularBuilder {
@@ -47,19 +47,43 @@ export class PropertyToColumnTransformer extends AbstractSingularBuilder {
 
 		informationClass.allDataMembers.forEach((member: ObjectTypeDataMember) => {
 			const property = member as Property
-			const columnName = `${property.name}`
-			const columnDescription = property.description
 			const valueType = property.type
-			const hasLengthRule = property.rules?.find((rule) => rule instanceof LengthRule)
-			const length = hasLengthRule ? (hasLengthRule as LengthRule).maximum : 255
-			const column = new Column(schema.fullConstantCaseName, tableName, columnName, columnDescription, valueType, length)
-			column.permanence = Permanence.constant
-			column.informational = false
-			column.functional = true
-			column.origin = ComponentOrigin.manufactured
-			column.autoIncrement = columnName == 'id'
-			if (column.autoIncrement) table.primaryKey = column
-			table.addChild(column)
+
+			if (valueType.primitive || valueType.objectTypeName == 'Enumeration') {
+				const columnName = `${property.name}`
+				const columnDescription = property.description
+				const hasLengthRule = property.rules?.find((rule) => rule instanceof LengthRule)
+				const length = hasLengthRule ? (hasLengthRule as LengthRule).maximum : 255
+				const column = new Column(schema.fullConstantCaseName, tableName, columnName, columnDescription, valueType, length)
+				column.permanence = Permanence.constant
+				column.informational = false
+				column.functional = true
+				column.origin = ComponentOrigin.manufactured
+				column.autoIncrement = columnName == 'id'
+				if (column.autoIncrement) table.primaryKey = column
+
+				if (valueType.objectTypeName == 'Enumeration') {
+					const fullDomainName = SystemComponent.fullConstantCase(rdbms.fullConstantCaseName, valueType.name)
+					let representedDomain = system.descendants[fullDomainName] as Domain | undefined
+					if (!representedDomain) {
+						const enumValues = valueType.children
+						representedDomain = new Domain(
+							fullDomainName,
+							valueType.name,
+							valueType.description,
+							'',
+							Object.entries(enumValues)?.map(([key, enumValueComponent]) => {
+								const enumeratedValue = enumValueComponent as EnumeratedValue
+								const domainValue = new DomainValue(fullDomainName, key, '', enumeratedValue.value.replace(/'/g, ''))
+								return domainValue
+							}) ?? []
+						)
+					}
+					column.inDomain = representedDomain
+				}
+
+				table.addChild(column)
+			}
 		})
 
 		return [new SystemComponentArtifact(table)]

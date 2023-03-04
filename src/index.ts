@@ -3,6 +3,7 @@ export * from './plugins/application-architecture/builders/DalToServiceTransform
 export * from './plugins/application-architecture/builders/ModelToDalTransformer'
 export * from './plugins/application-architecture/builders/PropertyToColumnTransformer'
 export * from './plugins/application-architecture/builders/ServiceToEndpointTransformer'
+export * from './plugins/application-architecture/builders/PropertyToForeignKeyTransformer'
 export * from './plugins/application-architecture/DataAccessLayer'
 export * from './plugins/application-architecture/EndpointLayer'
 export * from './plugins/application-architecture/ServiceLayer'

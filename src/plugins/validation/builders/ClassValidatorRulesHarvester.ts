@@ -67,7 +67,7 @@ export class ClassValidatorRulesHarvester extends AbstractTypeScriptAstHarvester
 									if (parameters && parameters.length > 0) {
 										const configurationParameter = parameters[0]
 										configurationParameter.properties.forEach((property: any) => {
-											const propertyName = property.name.escapedText.replace(`'`, '')
+											const propertyName = property.name.escapedText.replace(/'/g, '')
 											const initializerText = property.initializer.getText(ast)
 											switch (propertyName) {
 												case 'allowNaN':
@@ -93,7 +93,7 @@ export class ClassValidatorRulesHarvester extends AbstractTypeScriptAstHarvester
 									const newRule = new IsDecimalRule(representedProperty.fullConstantCaseName, decoratorName, '')
 									const configurationParameter = parameters[0]
 									configurationParameter.properties.forEach((property: any) => {
-										const propertyName = property.name.escapedText.replace(`'`, '')
+										const propertyName = property.name.escapedText.replace(/'/g, '')
 										const initializerText = property.initializer.getText(ast)
 										switch (propertyName) {
 											case 'force_decimal':
