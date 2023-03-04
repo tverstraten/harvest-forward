@@ -9,7 +9,7 @@ import { IsNumberRule } from '../IsNumberRule'
 import { LengthRule } from '../LengthRule'
 import { Rule } from '../Rule'
 
-export class ClassValidatorRulesExtractor extends AbstractTypeScriptAstHarvester {
+export class ClassValidatorRulesHarvester extends AbstractTypeScriptAstHarvester {
 	constructor(configurationValues?: { [key: string]: any }) {
 		super('A harvester that extracts inheritance relationships from a model of typescript classes', {}, configurationValues)
 	}

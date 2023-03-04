@@ -6,7 +6,7 @@ import { ValueType } from '../../../system/ValueType'
 import { Property } from '../../information-architecture'
 import { IsDecimalRule } from '../IsDecimalRule'
 
-export class RulesPropertyTypeExtractor extends AbstractSingularBuilder {
+export class RulesPropertyTypeHarvester extends AbstractSingularBuilder {
 	constructor(configurationValues?: { [key: string]: any }) {
 		const nonNullConfigurationValues = configurationValues ? configurationValues : []
 		nonNullConfigurationValues['repeatFor'] = JSON.stringify({

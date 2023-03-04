@@ -88,6 +88,7 @@ export class BuilderFactory {
 				}
 		}
 
+		this.logger.info(`Builders currently registered are: ${Object.keys(BuilderFactory.factories).map((factory): string => factory)}`)
 		throw new TypeError(`Configuration does not describe a known builder type ${builderName}`)
 	}
 

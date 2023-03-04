@@ -1,10 +1,10 @@
 import { Builder } from '../../runtime/Builder'
-import { ClassValidatorRulesExtractor } from './builders/ClassValidatorRulesExtractor'
-import { RulesPropertyTypeExtractor } from './builders/RulesPropertyTypeExtractor'
+import { ClassValidatorRulesHarvester } from './builders/ClassValidatorRulesHarvester'
+import { RulesPropertyTypeHarvester } from './builders/RulesPropertyTypeHarvester'
 
 export const BUILDERS = {
-	classValidatorRulesExtractor: (settings: any): Builder => new ClassValidatorRulesExtractor(settings),
-	rulesPropertyTypeExtractor: (settings: any): Builder => new RulesPropertyTypeExtractor(settings),
+	classValidatorRulesHarvester: (settings: any): Builder => new ClassValidatorRulesHarvester(settings),
+	rulesPropertyTypeHarvester: (settings: any): Builder => new RulesPropertyTypeHarvester(settings),
 }
 
 export * from './Rule'
@@ -22,5 +22,5 @@ export * from './NumericRangeRule'
 export * from './RegexRule'
 export * from './Rule'
 export * from './ValueTypeRule'
-export * from './builders/ClassValidatorRulesExtractor'
-export * from './builders/RulesPropertyTypeExtractor'
+export * from './builders/ClassValidatorRulesHarvester'
+export * from './builders/RulesPropertyTypeHarvester'

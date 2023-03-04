@@ -10,6 +10,7 @@ import * as rdbmsBasic from '../plugins/rdbms-basic'
 import * as rest from '../plugins/rest'
 import * as typescriptBase from '../plugins/typescript'
 import * as typescriptBuilder from '../plugins/typescript-builder'
+import * as validation from '../plugins/validation'
 import { ProgrammingLanguage } from '../system/ProgrammingLanguage'
 import { ValueType } from '../system/ValueType'
 import { Level, LogAsyncMethod } from '@tverstraten/log-annotations'
@@ -145,6 +146,7 @@ export class ConfigurationManager {
 		ConfigurationManager.registerConfigurationByModule('builtIn/applicationArchitecture', applicationArchitecture)
 		ConfigurationManager.registerConfigurationByModule('builtIn/rdbmsBasic', rdbmsBasic)
 		ConfigurationManager.registerConfigurationByModule('builtIn/rest', rest)
+		ConfigurationManager.registerConfigurationByModule('builtIn/validation', validation)
 	}
 
 	@LogAsyncMethod()
