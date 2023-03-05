@@ -46,7 +46,7 @@ export class PropertyToForeignKeyTransformer extends AbstractSingularBuilder {
 
 		informationClass.allDataMembers.forEach((member: ObjectTypeDataMember) => {
 			const property = member as Property
-			const valueType = property.type
+			const valueType = property.type.asMandatory
 			const sourceColumnName = `${property.name}Id`
 
 			if (!valueType.primitive && valueType.objectTypeName != 'Enumeration') {

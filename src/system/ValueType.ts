@@ -58,6 +58,7 @@ export class ValueType extends SystemDescendantComponent {
 	static void = new ValueType('ValueType', 'INFORMATION_MODEL', 'void', '', true)
 
 	get asOptional(): ValueType {
+		if (this.isOptional) return this
 		if (this._asOptional) return this._asOptional
 
 		this._asOptional = new ValueType(
@@ -74,6 +75,7 @@ export class ValueType extends SystemDescendantComponent {
 	}
 
 	get asMandatory(): ValueType {
+		if (!this.isOptional) return this
 		if (this._asMandatory) return this._asMandatory
 
 		this._asMandatory = new ValueType(

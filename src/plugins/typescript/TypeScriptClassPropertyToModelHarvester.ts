@@ -96,6 +96,7 @@ export class TypeScriptClassPropertyToModelHarvester extends AbstractTypeScriptA
 								propertyType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, 'string')
 							}
 							if (propertyType) {
+								if (member.questionToken) propertyType = propertyType.asOptional
 								const newProperty = new Property(representedClass.constantCaseFullName, memberName, memberDocumentationText, propertyType, 0)
 								newProperty.permanence = Permanence.persistent
 								newProperty.informational = true

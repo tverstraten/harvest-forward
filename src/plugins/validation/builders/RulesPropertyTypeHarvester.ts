@@ -35,33 +35,33 @@ export class RulesPropertyTypeHarvester extends AbstractSingularBuilder {
 		property.rules?.forEach((rule) => {
 			switch (rule.objectTypeName) {
 				case 'IsInt':
-					property.type = ValueType.int
+					property.type = property.optional ? ValueType.int.asOptional : ValueType.int
 					break
 				case 'IsString':
-					property.type = ValueType.string
+					property.type = property.optional ? ValueType.string.asOptional : ValueType.string
 					break
 				case 'IsDate':
-					property.type = ValueType.date
+					property.type = property.optional ? ValueType.date.asOptional : ValueType.date
 					break
 				case 'IsBoolean':
-					property.type = ValueType.boolean
+					property.type = property.optional ? ValueType.boolean.asOptional : ValueType.boolean
 					break
 
 				case 'IsBooleanString':
 				case 'IsDateString':
 				case 'IsNumberString':
 				case 'IsDecimalString':
-					property.type = ValueType.string
+					property.type = property.optional ? ValueType.string.asOptional : ValueType.string
 					break
 
 				case 'IsNumber':
-					property.type = ValueType.float
+					property.type = property.optional ? ValueType.float.asOptional : ValueType.float
 					const numberDigits = (rule as IsDecimalRule).decimalDigits
 					property.significantDigits = numberDigits ? numberDigits : 2
 					break
 
 				case 'IsDecimal':
-					property.type = ValueType.float
+					property.type = property.optional ? ValueType.float.asOptional : ValueType.float
 					const decimalDigits = (rule as IsDecimalRule).decimalDigits
 					property.significantDigits = decimalDigits ? decimalDigits : 2
 					break

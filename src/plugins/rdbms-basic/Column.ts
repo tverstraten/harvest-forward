@@ -84,13 +84,17 @@ export class Column extends RelationalComponent {
 
 		switch (this.valueType) {
 			case ValueType.string:
+			case ValueType.string.asOptional:
 				sqlText = `${dataTypeName}(${this.characterMaximumLength})`
 				break
 			case ValueType.decimal:
+			case ValueType.decimal.asOptional:
 			case ValueType.number:
+			case ValueType.number.asOptional:
 				sqlText = `${dataTypeName}(${this.precision}, ${this.scale})`
 				break
 			case ValueType.float:
+			case ValueType.float.asOptional:
 				sqlText = `${dataTypeName}(${this.precision})`
 				break
 			default:

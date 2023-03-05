@@ -56,7 +56,8 @@ export class ClassValidatorRulesHarvester extends AbstractTypeScriptAstHarvester
 							case 'MaxLength':
 								if (!representedProperty.rules.find((rule) => rule.objectTypeName == 'LengthRule')) {
 									const newRule = new LengthRule(representedProperty.fullConstantCaseName, decoratorName, '')
-									newRule.maximum = parseInt(parameters[0].getText(ast))
+									const lengthAsText = parameters[0].getText(ast)
+									newRule.maximum = parseInt(lengthAsText)
 									representedProperty.rules.push(newRule)
 								}
 								break
