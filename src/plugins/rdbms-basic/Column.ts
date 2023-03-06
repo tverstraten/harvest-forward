@@ -95,7 +95,7 @@ export class Column extends RelationalComponent {
 				break
 			case ValueType.float:
 			case ValueType.float.asOptional:
-				sqlText = `${dataTypeName}(${this.precision})`
+				sqlText = `${dataTypeName}(${this.precision}, ${this.scale})`
 				break
 			default:
 				sqlText = `${dataTypeName}`

@@ -8,6 +8,6 @@ export class IsDecimalRule extends Rule {
 	locale?: string
 
 	constructor(nameSpace: string, name: string, description: string) {
-		super('IsDecimalRule', nameSpace, name, description)
+		super('IsDecimal', nameSpace, name, description)
 	}
 }

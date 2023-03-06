@@ -8,6 +8,6 @@ export class LengthRule extends Rule {
 	length = 0
 
 	constructor(nameSpace: string, name: string, description: string) {
-		super('LengthRule', nameSpace, name, description)
+		super('Length', nameSpace, name, description)
 	}
 }

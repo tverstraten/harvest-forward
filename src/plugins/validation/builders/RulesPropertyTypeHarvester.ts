@@ -5,6 +5,7 @@ import { SystemComponent } from '../../../system/SystemComponent'
 import { ValueType } from '../../../system/ValueType'
 import { Property } from '../../information-architecture'
 import { IsDecimalRule } from '../IsDecimalRule'
+import { IsNumberRule } from '../IsNumberRule'
 
 export class RulesPropertyTypeHarvester extends AbstractSingularBuilder {
 	constructor(configurationValues?: { [key: string]: any }) {
@@ -41,7 +42,7 @@ export class RulesPropertyTypeHarvester extends AbstractSingularBuilder {
 					property.type = property.optional ? ValueType.string.asOptional : ValueType.string
 					break
 				case 'IsDate':
-					property.type = property.optional ? ValueType.date.asOptional : ValueType.date
+					property.type = property.optional ? ValueType.dateTime.asOptional : ValueType.dateTime
 					break
 				case 'IsBoolean':
 					property.type = property.optional ? ValueType.boolean.asOptional : ValueType.boolean
@@ -55,15 +56,19 @@ export class RulesPropertyTypeHarvester extends AbstractSingularBuilder {
 					break
 
 				case 'IsNumber':
+					const isNumberRule = rule as IsNumberRule
 					property.type = property.optional ? ValueType.float.asOptional : ValueType.float
-					const numberDigits = (rule as IsDecimalRule).decimalDigits
+					const numberDigits = isNumberRule.maxDecimalPlaces
 					property.significantDigits = numberDigits ? numberDigits : 2
+					property.length = 16
 					break
 
 				case 'IsDecimal':
+					const isDecimalRule = rule as IsDecimalRule
 					property.type = property.optional ? ValueType.float.asOptional : ValueType.float
-					const decimalDigits = (rule as IsDecimalRule).decimalDigits
+					const decimalDigits = isDecimalRule.decimalDigits
 					property.significantDigits = decimalDigits ? decimalDigits : 2
+					property.length = 16
 					break
 
 				case 'IsEnum':

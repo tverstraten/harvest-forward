@@ -11,6 +11,8 @@ import { Class, EnumeratedValue, ObjectTypeDataMember, Property } from '../../in
 import { Column, Domain, DomainValue, RelationalDatabase, Schema, Table } from '../../rdbms-basic'
 import { LengthRule } from '../../validation'
 
+const NUMERIC_NAMES = ['number', 'int', 'float']
+
 export class PropertyToColumnTransformer extends AbstractSingularBuilder {
 	constructor(configurationValues?: { [key: string]: any }) {
 		const nonNullConfigurationValues = configurationValues ? configurationValues : []
@@ -45,6 +47,7 @@ export class PropertyToColumnTransformer extends AbstractSingularBuilder {
 		if (table == undefined) throw new RangeError(`Table ${tableName} was not found in the database for class ${informationClass.name}`)
 		const schema = table.parent as Schema
 
+		// eslint-disable-next-line max-lines-per-function
 		informationClass.allDataMembers.forEach((member: ObjectTypeDataMember) => {
 			const property = member as Property
 			const valueType = property.type
@@ -80,6 +83,9 @@ export class PropertyToColumnTransformer extends AbstractSingularBuilder {
 						)
 					}
 					column.inDomain = representedDomain
+				} else if (NUMERIC_NAMES.includes(valueType.asMandatory.name)) {
+					column.precision = property.length
+					column.scale = property.significantDigits
 				}
 
 				table.addChild(column)

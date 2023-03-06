@@ -88,8 +88,8 @@ export class TypeScriptClassPropertyToModelHarvester extends AbstractTypeScriptA
 							const fullName = SystemComponent.fullConstantCase(model.fullConstantCaseName, typeName)
 							let propertyType
 							try {
-								propertyType = system.descendants[fullName] as ValueType
-								if (!propertyType) propertyType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, typeName)
+								propertyType = ValueType.fromNameInLanguage(ProgrammingLanguage.typeScript, typeName)
+								if (!propertyType) propertyType = system.descendants[fullName] as ValueType
 								if (isArray && propertyType) propertyType = propertyType.asCollection
 							} catch (problem) {
 								_thisThis.logger.error(`harvestFromAst(failed) ${problem}`)

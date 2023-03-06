@@ -8,6 +8,6 @@ export class IsNumberRule extends Rule {
 	maxDecimalPlaces?: number
 
 	constructor(nameSpace: string, name: string, description: string) {
-		super('IsNumberRule', nameSpace, name, description)
+		super('IsNumber', nameSpace, name, description)
 	}
 }
