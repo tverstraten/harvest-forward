@@ -59,6 +59,7 @@ export class ClassValidatorRulesHarvester extends AbstractTypeScriptAstHarvester
 									const lengthAsText = parameters[0].getText(ast)
 									newRule.maximum = parseInt(lengthAsText)
 									representedProperty.rules.push(newRule)
+									representedProperty.length = newRule.maximum
 								}
 								break
 

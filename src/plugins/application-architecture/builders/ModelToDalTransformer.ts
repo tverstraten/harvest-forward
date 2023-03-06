@@ -18,6 +18,7 @@ export class ModelToDalTransformer extends AbstractSingularBuilder {
 			objectTypeName: 'Class',
 			permanence: 'persistent',
 			componentType: 'informationModel',
+			isAbstract: false,
 		})
 		super(
 			'A transformer that creates a data access layer based on the information model',
