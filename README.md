@@ -23,9 +23,9 @@ Some simple examples include:
 1. As shown in our [sample application](https://github.com/tverstraten/hf-sample-app-ts-mysql-express), a typescript model is used to produce
 
     1. A Mysql schema
-    1. A basic data access layer with CRUD operations
-    1. A basic service layer with CRUD operations proxied to the dal
-    1. A base REST API layer for exposing all service layer operations as endpoints
+    1. A basic data access layer with CRUD operations and unit tests.
+    1. A basic service layer with CRUD operations proxied to the dal and unit tests.
+    1. A base REST API layer for exposing all service layer operations as endpoints and unit tests.
 
 # Quick start
 

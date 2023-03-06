@@ -1,9 +1,9 @@
 /* eslint-disable max-lines-per-function */
 import { EnumeratedValue, Enumeration } from '../../../plugins/information-architecture'
-import { TypeScriptEnumValueHarvester } from '../../../plugins/typescript'
 import { System } from '../../../system/System'
 import { ComponentOrigin } from '../../../system/ComponentOrigin'
 import { Permanence } from '../../../system/Permanence'
+import { TypeScriptEnumValueHarvester } from '../../../plugins/typescript/TypeScriptEnumValueHarvester'
 
 describe('run', () => {
 	it('local classes', async () => {

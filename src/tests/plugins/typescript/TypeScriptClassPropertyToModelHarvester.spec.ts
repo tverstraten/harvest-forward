@@ -1,15 +1,13 @@
 /* eslint-disable max-lines-per-function */
 import { Class, Property } from '../../../plugins/information-architecture'
-import {
-	TypeScriptClassPropertyToModelHarvester,
-	TypeScriptClassToModelHarvester,
-	TypeScriptEnumValueHarvester,
-	TYPE_RESOLVERS,
-} from '../../../plugins/typescript'
 import { System } from '../../../system/System'
 import { ComponentOrigin } from '../../../system/ComponentOrigin'
 import { Permanence } from '../../../system/Permanence'
 import { ConfigurationManager } from '../../../runtime/ConfigurationManager'
+import { TypeScriptClassToModelHarvester } from '../../../plugins/typescript/TypeScriptClassToModelHarvester'
+import { TypeScriptEnumValueHarvester } from '../../../plugins/typescript/TypeScriptEnumValueHarvester'
+import { TypeScriptClassPropertyToModelHarvester } from '../../../plugins/typescript/TypeScriptClassPropertyToModelHarvester'
+import { TYPE_RESOLVERS } from '../../../plugins/typescript'
 
 describe('run', () => {
 	it('local classes', async () => {
@@ -50,7 +48,7 @@ describe('run', () => {
 		expect(nameProperty.name).toBe('name')
 		expect(nameProperty.nameSpace).toBe('INFORMATION_MODEL/USER')
 		expect(nameProperty.optional).toBe(true)
-		expect(nameProperty.type.name).toBe('string')
+		expect(nameProperty.type.name).toBe('string?')
 		expect(nameProperty.type.isCollection).toBe(false)
 		expect(nameProperty.objectTypeName).toBe('Property')
 		expect(nameProperty.origin).toBe(ComponentOrigin.harvested)
@@ -88,7 +86,7 @@ describe('run', () => {
 		expect(idProperty.name).toBe('id')
 		expect(idProperty.nameSpace).toBe('INFORMATION_MODEL/MESSAGE')
 		expect(idProperty.optional).toBe(true)
-		expect(idProperty.type.name).toBe('string')
+		expect(idProperty.type.name).toBe('string?')
 		expect(idProperty.type.isCollection).toBe(false)
 		expect(idProperty.objectTypeName).toBe('Property')
 		expect(idProperty.origin).toBe(ComponentOrigin.harvested)
@@ -100,7 +98,7 @@ describe('run', () => {
 		expect(forUserProperty.name).toBe('forUser')
 		expect(forUserProperty.nameSpace).toBe('INFORMATION_MODEL/MESSAGE')
 		expect(forUserProperty.optional).toBe(true)
-		expect(forUserProperty.type.name).toBe('User')
+		expect(forUserProperty.type.name).toBe('User?')
 		expect(forUserProperty.type.isCollection).toBe(false)
 		expect(forUserProperty.objectTypeName).toBe('Property')
 		expect(forUserProperty.origin).toBe(ComponentOrigin.harvested)
@@ -112,7 +110,7 @@ describe('run', () => {
 		expect(contentProperty.name).toBe('content')
 		expect(contentProperty.nameSpace).toBe('INFORMATION_MODEL/MESSAGE')
 		expect(contentProperty.optional).toBe(true)
-		expect(contentProperty.type.name).toBe('string')
+		expect(contentProperty.type.name).toBe('string?')
 		expect(contentProperty.type.isCollection).toBe(false)
 		expect(contentProperty.objectTypeName).toBe('Property')
 		expect(contentProperty.origin).toBe(ComponentOrigin.harvested)
@@ -137,7 +135,7 @@ describe('run', () => {
 		expect(idProperty2.name).toBe('id')
 		expect(idProperty2.nameSpace).toBe('INFORMATION_MODEL/IDENTITY')
 		expect(idProperty2.optional).toBe(true)
-		expect(idProperty2.type.name).toBe('string')
+		expect(idProperty2.type.name).toBe('string?')
 		expect(idProperty2.type.isCollection).toBe(false)
 		expect(idProperty2.objectTypeName).toBe('Property')
 		expect(idProperty2.origin).toBe(ComponentOrigin.harvested)
@@ -149,7 +147,7 @@ describe('run', () => {
 		expect(providerProperty.name).toBe('provider')
 		expect(providerProperty.nameSpace).toBe('INFORMATION_MODEL/IDENTITY')
 		expect(providerProperty.optional).toBe(true)
-		expect(providerProperty.type.name).toBe('IdentityProvider')
+		expect(providerProperty.type.name).toBe('IdentityProvider?')
 		expect(providerProperty.type.isCollection).toBe(false)
 		expect(providerProperty.objectTypeName).toBe('Property')
 		expect(providerProperty.origin).toBe(ComponentOrigin.harvested)
@@ -161,7 +159,7 @@ describe('run', () => {
 		expect(providerIdProperty.name).toBe('providerId')
 		expect(providerIdProperty.nameSpace).toBe('INFORMATION_MODEL/IDENTITY')
 		expect(providerIdProperty.optional).toBe(true)
-		expect(providerIdProperty.type.name).toBe('number')
+		expect(providerIdProperty.type.name).toBe('number?')
 		expect(providerIdProperty.type.isCollection).toBe(false)
 		expect(providerIdProperty.objectTypeName).toBe('Property')
 		expect(providerIdProperty.origin).toBe(ComponentOrigin.harvested)
@@ -173,7 +171,7 @@ describe('run', () => {
 		expect(forUserProperty2.name).toBe('forUser')
 		expect(forUserProperty2.nameSpace).toBe('INFORMATION_MODEL/IDENTITY')
 		expect(forUserProperty2.optional).toBe(true)
-		expect(forUserProperty2.type.name).toBe('User')
+		expect(forUserProperty2.type.name).toBe('User?')
 		expect(forUserProperty2.type.isCollection).toBe(false)
 		expect(forUserProperty2.objectTypeName).toBe('Property')
 		expect(forUserProperty2.origin).toBe(ComponentOrigin.harvested)

@@ -1,9 +1,9 @@
 /* eslint-disable max-lines-per-function */
 import { Class } from '../../../plugins/information-architecture'
-import { TypeScriptClassToModelHarvester } from '../../../plugins/typescript'
 import { System } from '../../../system/System'
 import { ComponentOrigin } from '../../../system/ComponentOrigin'
 import { Permanence } from '../../../system/Permanence'
+import { TypeScriptClassToModelHarvester } from '../../../plugins/typescript/TypeScriptClassToModelHarvester'
 
 describe('run', () => {
 	it('local classes', async () => {

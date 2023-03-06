@@ -1,6 +1,8 @@
 /* eslint-disable max-lines-per-function */
 import { Class, Interface } from '../../../plugins/information-architecture'
-import { TypescriptClassInheritanceHarvester, TypeScriptClassToModelHarvester, TypeScriptInterfaceToModelHarvester } from '../../../plugins/typescript'
+import { TypescriptClassInheritanceHarvester } from '../../../plugins/typescript/TypescriptClassInheritanceHarvester'
+import { TypeScriptClassToModelHarvester } from '../../../plugins/typescript/TypeScriptClassToModelHarvester'
+import { TypeScriptInterfaceToModelHarvester } from '../../../plugins/typescript/TypeScriptInterfaceToModelHarvester'
 import { System } from '../../../system/System'
 
 describe('run', () => {

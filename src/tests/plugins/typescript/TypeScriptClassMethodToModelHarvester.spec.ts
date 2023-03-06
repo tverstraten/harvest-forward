@@ -1,10 +1,12 @@
 /* eslint-disable max-lines-per-function */
 import { Class, Method, Parameter } from '../../../plugins/information-architecture'
-import { TypeScriptClassMethodToModelHarvester, TypeScriptClassToModelHarvester, TYPE_RESOLVERS } from '../../../plugins/typescript'
 import { System } from '../../../system/System'
 import { ComponentOrigin } from '../../../system/ComponentOrigin'
 import { Permanence } from '../../../system/Permanence'
 import { ConfigurationManager } from '../../../runtime/ConfigurationManager'
+import { TypeScriptClassToModelHarvester } from '../../../plugins/typescript/TypeScriptClassToModelHarvester'
+import { TypeScriptClassMethodToModelHarvester } from '../../../plugins/typescript/TypeScriptClassMethodToModelHarvester'
+import { TYPE_RESOLVERS } from '../../../plugins/typescript'
 
 describe('run', () => {
 	it('local classes', async () => {

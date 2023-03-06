@@ -1,11 +1,6 @@
 import fs from 'fs'
 import * as sh from 'shelljs'
 import { CircularReplacer, Level } from '@tverstraten/log-annotations'
-import { HttpVerb } from '../HttpVerb'
-import { Path } from '../Path'
-import { PathParameter } from '../PathParameter'
-import { Resource } from '../Resource'
-import { RestParameterLocation } from '../RestParameterLocation'
 import { AbstractSingularBuilder } from '../../../../runtime/AbstractSingularBuilder'
 import { Artifact } from '../../../../system/Artifact'
 import { ProgrammingLanguage } from '../../../../system/ProgrammingLanguage'
@@ -15,6 +10,7 @@ import { ValueType } from '../../../../system/ValueType'
 import { Variable } from '../../../../system/Variable'
 import { InformationModel, Class, Method } from '../../../information-architecture'
 import { System } from '../../../../system/System'
+import { PathParameter, RestParameterLocation, HttpVerb, Resource, Path } from '../../../rest'
 
 export class OpenApiJsonToApiHarvester extends AbstractSingularBuilder {
 	constructor(configurationValues?: { [key: string]: any }) {
@@ -55,7 +51,7 @@ export class OpenApiJsonToApiHarvester extends AbstractSingularBuilder {
 			const model = InformationModel.fromSystem(system)
 			const referenceName = referenceString.replace(/#.components.schemas./, '')
 			const fullName = SystemComponent.fullConstantCase(model.fullConstantCaseName, referenceName)
-			let referencedClass = system.descendants[fullName] as ValueType 
+			let referencedClass = system.descendants[fullName] as ValueType
 			if (referenceName === '') {
 				this.logger.info(`valueTypeFromJson(${JSON.stringify(typeSpec, CircularReplacer())}) has empty type specification`)
 				return referencedClass
