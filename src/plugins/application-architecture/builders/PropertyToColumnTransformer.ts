@@ -52,7 +52,7 @@ export class PropertyToColumnTransformer extends AbstractSingularBuilder {
 			const property = member as Property
 			const valueType = property.type
 
-			if (valueType.primitive || valueType.objectTypeName == 'Enumeration') {
+			if (!property.static && (valueType.primitive || valueType.objectTypeName == 'Enumeration')) {
 				const columnName = `${property.name}`
 				const columnDescription = property.description
 				const hasLengthRule = property.rules?.find((rule) => rule instanceof LengthRule)
