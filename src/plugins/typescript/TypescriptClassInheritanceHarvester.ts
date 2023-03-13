@@ -33,7 +33,10 @@ export class TypescriptClassInheritanceHarvester extends AbstractTypeScriptAstHa
 									const baseClassName = identifierNode.getText(ast) as string
 									const baseClassFullName = SystemComponent.fullConstantCase(model.fullConstantCaseName, baseClassName)
 									const baseClass = system.descendants[baseClassFullName]
-									if (baseClass instanceof Interface) valueClass.inheritsFrom.push(baseClass.fullConstantCaseName)
+									if (baseClass instanceof Interface) {
+										valueClass.inheritsFrom.push(baseClass.fullConstantCaseName)
+										baseClass.derivations.push(valueClass.fullConstantCaseName)
+									}
 								})
 							})
 
@@ -55,8 +58,13 @@ export class TypescriptClassInheritanceHarvester extends AbstractTypeScriptAstHa
 									const baseClassName = identifierNode.getText(ast) as string
 									const baseClassFullName = SystemComponent.fullConstantCase(model.fullConstantCaseName, baseClassName)
 									const baseClass = system.descendants[baseClassFullName]
-									if (baseClass instanceof Class) valueClass.inheritsFrom.push(baseClass.fullConstantCaseName)
-									else if (baseClass instanceof Interface) valueClass.implements.push(baseClass.fullConstantCaseName)
+									if (baseClass instanceof Class) {
+										valueClass.inheritsFrom.push(baseClass.fullConstantCaseName)
+										baseClass.derivations.push(valueClass.fullConstantCaseName)
+									} else if (baseClass instanceof Interface) {
+										valueClass.implements.push(baseClass.fullConstantCaseName)
+										baseClass.derivations.push(valueClass.fullConstantCaseName)
+									}
 								})
 							})
 
